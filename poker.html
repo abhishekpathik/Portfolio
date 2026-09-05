@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redesigning the Poker Game Table — Abhishek Pathik</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Archivo:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a href="index.html" class="brand">Abhishek Pathik</a>
+    <div class="links">
+      <a class="back" href="index.html#work">Back to work</a>
+    </div>
+  </div>
+</nav>
+
+<header class="cs-hero wrap">
+  <div class="eyebrow">A real-money gaming redesign for Junglee Games</div>
+  <h1>Redesigning the Poker Game Table</h1>
+  <p class="lede">A cleaner, more intuitive redesign of the poker game table that reduces clutter and cognitive load, delivering a more immersive player experience.</p>
+  <div class="cs-meta">
+    <div><span>Role</span>Senior Product Designer</div>
+    <div><span>Focus</span>Interaction &amp; visual design</div>
+    <div><span>Frameworks used</span>Gestalt, Fitts's Law, Hick's Law</div>
+  </div>
+  <div class="cs-hero-img">
+    <img src="https://framerusercontent.com/images/6L5JVlEBhVY3WCzcVepYR86zufk.png?width=1600&height=1256" alt="Redesigned poker game table">
+  </div>
+</header>
+
+<section class="cs-section wrap">
+  <h2>Introduction</h2>
+  <p class="lede">The game table is the core experience of any online card game — it's where players spend most of their time, so it has to be intuitive, visually clear, and engaging.</p>
+  <p>The old design was functional but cluttered, inconsistent, and behind modern usability standards. The redesign aimed to create a cleaner, more immersive, and user-friendly table that improves engagement and reduces cognitive load.</p>
+</section>
+
+<section class="cs-section wrap">
+  <h2>Research &amp; problem identification</h2>
+  <p>Through surveys, in-game feedback, and stakeholder input, multi-tabling professionals in particular reported poor readability of core gameplay elements. Five priorities emerged for where players' attention actually goes:</p>
+  <ul class="goal-list">
+    <li><strong>Cards</strong> — the most critical element for decision-making; players need instant clarity on their own hand and the shared cards.</li>
+    <li><strong>Pot value</strong> — visibility of the total pot to evaluate risk and reward each hand.</li>
+    <li><strong>Bets</strong> — reading self and opponent bet amounts to track the flow of action.</li>
+    <li><strong>Table balance</strong> — chip stacks at a glance, vital for strategy in multi-table play.</li>
+    <li><strong>Username</strong> — identifying opponents by name to support quick recognition in fast-paced games.</li>
+  </ul>
+</section>
+
+<section class="cs-section wrap">
+  <h2>Competitive analysis</h2>
+  <p>Junglee Poker was benchmarked against Natural8 and PokerBaazi across visual design, layout and ergonomics, interactivity, feature availability, and performance. The pattern was consistent: competitors led on visual distinctiveness, clear information hierarchy, and rich feedback, while Junglee's table felt cluttered and its player information hard to parse.</p>
+  <div class="img-row">
+    <figure>
+      <img src="https://framerusercontent.com/images/REQA1DfMBO30vmH7iyCjaI.png?width=996&height=766" alt="PokerBaazi competitor table">
+      <figcaption>PokerBaazi</figcaption>
+    </figure>
+    <figure>
+      <img src="https://framerusercontent.com/images/t2gF3OpB21ZBsQQ7XTWEeTHCM30.png?width=1686&height=1200" alt="Natural8 competitor table">
+      <figcaption>Natural8</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="cs-section wrap">
+  <h2>Design goals</h2>
+  <ul class="goal-list">
+    <li>Simplify the interface by reducing clutter.</li>
+    <li>Improve visual hierarchy for better decision-making.</li>
+    <li>Enhance usability of key actions — Fold, Call, Raise.</li>
+    <li>Create a modern, premium aesthetic aligned with player expectations.</li>
+    <li>Ensure accessibility: readability, color contrast, scalable UI.</li>
+  </ul>
+</section>
+
+<section class="cs-section wrap">
+  <h2>Design principles applied</h2>
+  <div class="principle-grid">
+    <div class="principle-card">
+      <h3>Gestalt principles</h3>
+      <p class="def">People naturally perceive visual elements as organised groups rather than individual pieces.</p>
+      <p class="app">Grouped player name, chips, and avatar into a single clear unit, cutting clutter and improving scannability.</p>
+    </div>
+    <div class="principle-card">
+      <h3>Fitts's Law</h3>
+      <p class="def">Time to reach a target depends on its size and distance — bigger, closer targets are faster to hit.</p>
+      <p class="app">Fold, Call, and Raise were enlarged and moved to the bottom for quick reach, especially on mobile.</p>
+    </div>
+    <div class="principle-card">
+      <h3>Hick's Law</h3>
+      <p class="def">More choices mean slower decisions — fewer, clearer options speed things up.</p>
+      <p class="app">Simplified betting to preset sizes plus a clear slider, cutting overwhelm and speeding gameplay.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section wrap">
+  <h2>Before &amp; after</h2>
+
+  <div class="before-after">
+    <div class="ba-col before">
+      <div class="label">Before</div>
+      <p>Redundant labels, cluttered chip placement, cropped avatars, and uneven line spacing left players questioning the table's polish.</p>
+    </div>
+    <div class="ba-col after">
+      <div class="label">After</div>
+      <p>A streamlined player layout shows only essentials — name, stack, action.</p>
+      <p class="impact">Impact: players scan the table instantly, with no cognitive overload.</p>
+    </div>
+  </div>
+
+  <div class="before-after">
+    <div class="ba-col before">
+      <div class="label">Before</div>
+      <p>Action buttons had inconsistent colors, low contrast, irregular sizing, and blended into the background.</p>
+    </div>
+    <div class="ba-col after">
+      <div class="label">After</div>
+      <p>Larger, high-contrast buttons in standardized colors — red for Fold, green for Call, orange for Raise — placed for easy thumb reach.</p>
+      <p class="impact">Impact: faster decisions, fewer misclicks.</p>
+    </div>
+  </div>
+
+  <div class="before-after">
+    <div class="ba-col before">
+      <div class="label">Before</div>
+      <p>Hole cards got lost in the clutter, were placed unrealistically on the table, and were too small to read clearly.</p>
+    </div>
+    <div class="ba-col after">
+      <div class="label">After</div>
+      <p>Centralised cards with clear numerals and improved stacking visuals for a realistic, premium feel.</p>
+      <p class="impact">Impact: easier to track cards and bets, more confidence in gameplay.</p>
+    </div>
+  </div>
+
+  <div class="before-after">
+    <div class="ba-col before">
+      <div class="label">Before</div>
+      <p>Turn timers covered player info, status was hard to track, and floating emoji icons felt disconnected from the profile.</p>
+    </div>
+    <div class="ba-col after">
+      <div class="label">After</div>
+      <p>High-visibility status tags (All-in, Check, Disconnected), a glowing active-player highlight, and descriptive winning-hand labels.</p>
+      <p class="impact">Impact: stronger situational awareness, less confusion, more immersion.</p>
+    </div>
+  </div>
+
+  <div class="full-img">
+    <img src="https://framerusercontent.com/images/rJAEX15iyAPyPOXket0D46yZ4oI.png?width=1500&height=792" alt="New game table design">
+  </div>
+</section>
+
+<section class="cs-section wrap">
+  <h2>Impact &amp; business value</h2>
+  <div class="impact-grid">
+    <div class="impact-card">
+      <h3>Improved engagement</h3>
+      <p>Players spend more time on tables thanks to better usability.</p>
+    </div>
+    <div class="impact-card">
+      <h3>Reduced drop-offs</h3>
+      <p>A cleaner layout makes it easier for new players to adapt.</p>
+    </div>
+    <div class="impact-card">
+      <h3>Brand perception</h3>
+      <p>An elevated design aligns with modern gaming standards, increasing trust and appeal.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section wrap">
+  <h2>Final outcome</h2>
+  <p class="lede">The redesign transformed the game table into a modern, intuitive, immersive experience. The new interface looks premium while improving usability and reducing cognitive load — letting players focus on strategy rather than fighting the interface.</p>
+  <div class="gallery">
+    <img src="https://framerusercontent.com/images/Am3JzuQknvxym1hQlVCsHNDY.png?width=1600&height=1256" alt="Jackpot table state">
+    <img src="https://framerusercontent.com/images/vYNhTNGLcxcc2XovAQKFnrxZR3g.png?width=1600&height=1256" alt="Showdown state">
+    <img src="https://framerusercontent.com/images/GXGVQbpkBxNZXeRKbyFEiF6GY.png?width=1600&height=1256" alt="Winning state">
+    <img src="https://framerusercontent.com/images/yinqCcG7Mv6ORD3RL5dIPnBADmc.png?width=1600&height=1256" alt="Table themes">
+    <img src="https://framerusercontent.com/images/ZqVpYIxS898ZrxbhPPMEyZAf7Y0.png?width=1600&height=1256" alt="Settings panel">
+    <img src="https://framerusercontent.com/images/kWDr7PRW4KkhyXJhQaqw4UAvck.png?width=1600&height=1256" alt="Tournament table">
+  </div>
+</section>
+
+<section class="next-project wrap">
+  <span>Next case study</span>
+  <h2>Amplifying Zillion Coins on BharatPe</h2>
+  <a class="btn solid" href="bharatpe.html">View case study</a>
+</section>
+
+<footer class="footer wrap">
+  <div class="meta">© 2026 Abhishek Pathik. Based in India.</div>
+  <a class="btn" href="mailto:hello@abhishekpathik.com">hello@abhishekpathik.com</a>
+</footer>
+
+</body>
+</html>
