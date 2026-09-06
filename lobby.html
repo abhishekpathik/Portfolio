@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redesigning the Poker Lobby Experience — Abhishek Pathik</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <svg class="mark" width="32" height="32" viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="20" cy="20" r="19" fill="#FFFFFF"/>
+        <circle cx="20" cy="20" r="19" fill="none" stroke="#2E6F40" stroke-width="0.75" opacity="0.25"/>
+        <text x="20" y="26.5" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="14" letter-spacing="-0.5" fill="#2E6F40">AP</text>
+      </svg>
+      Abhishek Pathik
+    </a>
+    <div class="links">
+      <a class="back" href="index.html#work">Back to work</a>
+    </div>
+  </div>
+</nav>
+
+<header class="cs-hero wrap">
+  <div class="eyebrow">A real-money gaming redesign for Junglee Games</div>
+  <h1>Redesigning the Poker Lobby Experience</h1>
+  <p class="lede">The lobby is the starting point of every player's journey — it has to balance discovery, efficiency, and trust for beginners, regulars, and high-stakes pros all at once.</p>
+  <div class="cs-meta">
+    <div><span>Role</span>Product Designer</div>
+    <div><span>Focus</span>Navigation &amp; information architecture</div>
+    <div><span>Method</span>User interviews + usage data</div>
+  </div>
+  <div class="cs-hero-img">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAwIiBoZWlnaHQ9IjkwMCIgdmlld0JveD0iMCAwIDE2MDAgOTAwIj48cmVjdCB3aWR0aD0iMTYwMCIgaGVpZ2h0PSI5MDAiIGZpbGw9IiNFNEVGRTYiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyY2hpdm8sIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzYiIGZpbGw9IiMyRTZGNDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPk5ldyBQb2tlciBMb2JieTwvdGV4dD48L3N2Zz4=" alt="New poker lobby design">
+  </div>
+</header>
+
+<section class="cs-section wrap">
+  <h2>Overview</h2>
+  <p class="lede">The poker lobby needed to do three things at once, for three very different kinds of players:</p>
+  <ul class="goal-list">
+    <li>Help new players learn and build confidence.</li>
+    <li>Enable experienced players to quickly find the games they want.</li>
+    <li>Surface tournaments and promotions in a way that builds excitement without overwhelming.</li>
+  </ul>
+  <p>The redesign focused on understanding real user behavior and building an experience that balances discovery, efficiency, and trust.</p>
+</section>
+
+<section class="cs-section wrap">
+  <h2>Research &amp; analysis</h2>
+  <p class="lede">We ran user interviews and contextual inquiry with 12 poker players — a mix of beginners, regulars, and high-stakes pros.</p>
+  <ul class="goal-list">
+    <li><strong>Beginners</strong> found the screen overwhelming and didn't know which game to start with.</li>
+    <li><strong>Regular players</strong> said it took too long to find the table they usually played on.</li>
+    <li><strong>High-stakes pros</strong> only cared about prize pools and player counts, but had to dig for that information.</li>
+    <li><strong>Across all groups</strong>, promotional banners felt spammy and added little real value.</li>
+  </ul>
+  <p>This pointed to three clear gaps: a <strong>discoverability gap</strong> (new games hard to find), an <strong>information gap</strong> (buy-ins, blinds, and player counts buried), and a <strong>trust gap</strong> (legal and security info hidden).</p>
+
+  <div class="img-row">
+    <figure>
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+PHJlY3Qgd2lkdGg9IjgwMCIgaGVpZ2h0PSI2MDAiIGZpbGw9IiNGQkYxREEiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyY2hpdm8sIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiM4QTVBMEIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPk9sZCBMb2JieSAtIEFuYWx5c2lzPC90ZXh0Pjwvc3ZnPg==" alt="Old lobby design analysis">
+      <figcaption>Old lobby — cluttered navigation, buried information</figcaption>
+    </figure>
+    <figure>
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+PHJlY3Qgd2lkdGg9IjgwMCIgaGVpZ2h0PSI2MDAiIGZpbGw9IiNFNEVGRTYiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyY2hpdm8sIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiMyRTZGNDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPlVzZXIgUmVzZWFyY2ggU2Vzc2lvbnM8L3RleHQ+PC9zdmc+" alt="User research sessions">
+      <figcaption>Interviews across beginners, regulars, and pros</figcaption>
+    </figure>
+  </div>
+
+  <h3 style="margin: 40px 0 20px; font-size: 1.1rem;">What the usage data showed (3-month period)</h3>
+  <div class="impact-grid">
+    <div class="impact-card">
+      <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17 10 10l4 4 7-7"/><path d="M8 7h-.01M15 15v6h6"/></svg></div>
+      <h3>42% drop-off</h3>
+      <p>Users left before joining a game on their first session.</p>
+    </div>
+    <div class="impact-card">
+      <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+      <h3>2m 10s to first game</h3>
+      <p>Average time-to-first-game — a sign of high cognitive load.</p>
+    </div>
+    <div class="impact-card">
+      <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4v6h6"/><path d="M20 20v-6h-6"/><path d="M4.5 15a8 8 0 0 0 14.6 2.3M19.5 9a8 8 0 0 0-14.6-2.3"/></svg></div>
+      <h3>28% repeat sessions</h3>
+      <p>Week-1 repeat session rate — low retention out of the gate.</p>
+    </div>
+    <div class="impact-card">
+      <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m12 2 2.9 6.3 6.9.9-5 4.8 1.2 6.9L12 17.6 5.9 21l1.2-6.9-5-4.8 6.9-.9L12 2Z"/></svg></div>
+      <h3>15% tournament reg.</h3>
+      <p>Of active users — low, given the promotions on offer.</p>
+    </div>
+    <div class="impact-card">
+      <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.4c.6.5 1 1.3 1 2.1V16h6v-.5c0-.8.4-1.6 1-2.1A6 6 0 0 0 12 3Z"/></svg></div>
+      <h3>&lt;5% help usage</h3>
+      <p>Of the help section — poor visibility of learning resources.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section wrap">
+  <h2>Design goals</h2>
+  <ul class="goal-list">
+    <li>Reduce time-to-first-game for beginners.</li>
+    <li>Improve game discovery rate — players exploring multiple formats.</li>
+    <li>Increase tournament participation through visibility and clarity.</li>
+    <li>Raise trust confidence with transparent information architecture.</li>
+  </ul>
+</section>
+
+<section class="cs-section wrap">
+  <h2>UX solutions</h2>
+  <div class="impact-grid">
+    <div class="impact-card">
+      <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="7" height="7" rx="1.5"/><rect x="14" y="4" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
+      <h3>Structured navigation</h3>
+      <p>Categorized games into Cash, Tournaments, Practice, Sit &amp; Go, and Quick Play. Goal: lower decision time from 2m10s to under 1 minute.</p>
+    </div>
+    <div class="impact-card">
+      <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg></div>
+      <h3>Contextual surfacing</h3>
+      <p>Featured tables now display blinds, buy-ins, and player counts upfront. Goal: increase join rates by 15–20%.</p>
+    </div>
+    <div class="impact-card">
+      <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21V10"/><path d="M12 10C12 5 7 4 4 4c0 4 1 7 8 7Z"/><path d="M12 10c0-3.5 3-5 7-5 0 4-1 6.5-7 6.5"/></svg></div>
+      <h3>Progressive disclosure</h3>
+      <p>Poker School, Practice, and FAQs surfaced early for new players. Goal: raise Help/Practice usage from 5% to 20%.</p>
+    </div>
+    <div class="impact-card">
+      <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 3 6v6c0 5 4 8.5 9 10 5-1.5 9-5 9-10V6l-9-4Z"/><path d="m9 12 2 2 4-4"/></svg></div>
+      <h3>Trust signals</h3>
+      <p>Added a "legal in India?" FAQ, a secure-platform badge, and transparent prize pools. Goal: lower hesitation and early drop-off.</p>
+    </div>
+    <div class="impact-card">
+      <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12h4l2-7 4 14 3-10 2 3h5"/></svg></div>
+      <h3>Motivation via rewards</h3>
+      <p>Leaderboards, referral rewards, and multiple tournaments highlighted. Goal: boost repeat sessions above 40%.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section wrap">
+  <h2>Before &amp; after</h2>
+
+  <div class="before-after">
+    <div class="ba-col before">
+      <div class="label">Before</div>
+      <p>A flat list of tables with no clear categories, banners competing for attention, and buy-in/blind information hidden behind extra taps.</p>
+    </div>
+    <div class="ba-col after">
+      <div class="label">After</div>
+      <p>Games organized into five clear categories, with blinds, buy-ins, and player counts visible at a glance on every table card.</p>
+      <p class="impact">Impact: beginners choose a table in seconds instead of guessing.</p>
+    </div>
+  </div>
+
+  <div class="before-after">
+    <div class="ba-col before">
+      <div class="label">Before</div>
+      <p>Legal and security information was buried several menus deep, leaving new players uneasy about whether the platform was trustworthy.</p>
+    </div>
+    <div class="ba-col after">
+      <div class="label">After</div>
+      <p>A visible "Is poker legal in India?" FAQ and secure-platform badge sit right on the lobby, addressing hesitation upfront.</p>
+      <p class="impact">Impact: lower first-session drop-off from trust concerns.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section wrap">
+  <h2>Expected outcomes</h2>
+  <p class="lede">Projected impact of the redesign, based on the design goals set from research:</p>
+  <div class="impact-grid">
+    <div class="impact-card">
+      <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+      <h3>&lt;1 min to first game</h3>
+      <p>Down from 2m 10s, thanks to structured navigation.</p>
+    </div>
+    <div class="impact-card">
+      <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.4c.6.5 1 1.3 1 2.1V16h6v-.5c0-.8.4-1.6 1-2.1A6 6 0 0 0 12 3Z"/></svg></div>
+      <h3>5% → 20% help usage</h3>
+      <p>Progressive disclosure surfaces learning resources earlier.</p>
+    </div>
+    <div class="impact-card">
+      <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4v6h6"/><path d="M20 20v-6h-6"/><path d="M4.5 15a8 8 0 0 0 14.6 2.3M19.5 9a8 8 0 0 0-14.6-2.3"/></svg></div>
+      <h3>40%+ repeat sessions</h3>
+      <p>Up from 28%, driven by rewards and clearer onboarding.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section wrap">
+  <h2>Impact on user experience</h2>
+  <ul class="goal-list">
+    <li><strong>Beginners</strong> gain confidence through a smoother, guided onboarding.</li>
+    <li><strong>Regular players</strong> get faster access to their preferred formats, with transparent information upfront.</li>
+    <li><strong>Competitive players</strong> stay motivated through leaderboards, tournaments, and visible rewards.</li>
+    <li><strong>Business outcome</strong>: higher tournament participation drives direct revenue, while better onboarding and trust support long-term retention.</li>
+  </ul>
+  <p class="lede" style="margin-top: 28px;">The redesign was rooted in UX research rather than visual polish alone — combining qualitative feedback with usage data to deliver a lobby that's more efficient, trustworthy, and motivating for every type of player.</p>
+</section>
+
+<section class="next-project wrap">
+  <span>Next case study</span>
+  <h2>UI Design Showcase</h2>
+  <a class="btn solid" href="showcase.html">View case study</a>
+</section>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="20" cy="20" r="19" fill="#FFFFFF"/>
+        <circle cx="20" cy="20" r="19" fill="none" stroke="#2E6F40" stroke-width="0.75" opacity="0.25"/>
+        <text x="20" y="26.5" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="14" letter-spacing="-0.5" fill="#2E6F40">AP</text>
+      </svg>
+      <div class="cta">
+        <h2>Let's work together</h2>
+        <a class="btn solid" href="mailto:abhishekpathik@gmail.com">abhishekpathik@gmail.com</a>
+      </div>
+    </div>
+    <div class="meta">© 2026 Abhishek Pathik. Based in India.</div>
+  </div>
+</footer>
+
+</body>
+</html>
