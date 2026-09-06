@@ -250,23 +250,46 @@ p { max-width: 62ch; color: var(--text-muted); font-size: 1rem; }
 }
 
 /* Principles / impact — plain columns with top rule, no boxes */
-.principle-grid, .impact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--border); }
-.principle-card, .impact-card {
-  padding: 28px 28px 28px 0;
-  border-right: 1px solid var(--border);
+.principle-grid, .impact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  border-top: none;
 }
-.principle-card:last-child, .impact-card:last-child { border-right: none; }
+.principle-card, .impact-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 26px;
+  box-shadow: var(--shadow);
+  transition: transform .3s cubic-bezier(.22,.68,0,1.01), box-shadow .3s ease;
+}
+.principle-card:hover, .impact-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
 .principle-card h3, .impact-card h3 { font-size: 1.05rem; margin-bottom: 12px; }
 .principle-card .def { font-size: 0.92rem; color: var(--text-faint); margin-bottom: 14px; }
 .principle-card .app, .impact-card p { font-size: 0.92rem; margin: 0; }
+.principle-card .icon-badge, .impact-card .icon-badge {
+  width: 40px; height: 40px;
+  border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+}
+.principle-card:nth-child(odd) .icon-badge, .impact-card:nth-child(odd) .icon-badge { background: var(--accent-tint); color: var(--accent); }
+.principle-card:nth-child(even) .icon-badge, .impact-card:nth-child(even) .icon-badge { background: var(--accent2-tint); color: var(--accent2-text); }
 
-.before-after { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin: 32px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-.ba-col { padding: 26px 28px; }
-.ba-col:first-child { border-right: 1px solid var(--border); }
-.ba-col .label { font-size: 0.78rem; color: var(--text-faint); margin-bottom: 12px; letter-spacing: 0.02em; }
+.before-after { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 32px 0; border-top: none; border-bottom: none; }
+.ba-col {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 26px 28px;
+  box-shadow: var(--shadow);
+}
+.ba-col.after { box-shadow: var(--shadow-hover); border-color: var(--accent-dim); }
+.ba-col .label { font-size: 0.78rem; color: var(--text-faint); margin-bottom: 12px; letter-spacing: 0.02em; font-weight: 600; text-transform: uppercase; }
 .ba-col.after .label { color: var(--accent); }
 .ba-col p { font-size: 0.92rem; margin: 0; }
-.ba-col .impact { margin-top: 16px; font-size: 0.88rem; color: var(--accent); }
+.ba-col .impact { margin-top: 16px; font-size: 0.88rem; color: var(--accent); font-weight: 600; }
 
 .full-img { margin: 32px 0; overflow: hidden; }
 .img-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 32px 0; }
@@ -288,7 +311,7 @@ p { max-width: 62ch; color: var(--text-muted); font-size: 1rem; }
   .work-item, .work-item.reverse { grid-template-columns: 1fr; gap: 24px; padding: 40px 0; }
   .work-item.reverse .thumb { order: 0; }
   .philosophy-grid, .principle-grid, .impact-grid, .before-after, .img-row, .gallery { grid-template-columns: 1fr; }
-  .philosophy-item:nth-child(odd), .principle-card, .impact-card, .ba-col:first-child { border-right: none; }
+  .philosophy-item:nth-child(odd) { border-right: none; }
   .exp-row { grid-template-columns: 1fr; gap: 6px; padding: 24px 0; }
   .section { padding: 64px 0; }
   .section-head { flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 40px; }
