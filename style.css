@@ -451,13 +451,13 @@ a:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-
   transition: transform .3s cubic-bezier(.22,.68,0,1.01), box-shadow .3s ease;
 }
 .work-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
-.work-card .thumb { aspect-ratio: 16/10; overflow: hidden; }
+.work-card .thumb { height: 190px; overflow: hidden; }
 .work-card .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s cubic-bezier(.22,.68,0,1.01); }
 .work-card:hover .thumb img { transform: scale(1.05); }
-.work-card .content { padding: 24px 26px 28px; }
+.work-card .content { padding: 18px 22px 20px; }
 .work-card .tag-pill {
   display: inline-block;
-  padding: 5px 13px;
+  padding: 4px 11px;
   border-radius: 999px;
   font-size: 0.78rem;
   font-weight: 600;
@@ -465,12 +465,12 @@ a:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-
 }
 .work-card:nth-child(odd) .tag-pill { background: var(--accent-tint); color: var(--accent); }
 .work-card:nth-child(even) .tag-pill { background: var(--accent2-tint); color: var(--accent2-text); }
-.work-card h3 { font-size: 1.3rem; margin-bottom: 10px; }
-.work-card p { font-size: 0.92rem; margin-bottom: 20px; }
+.work-card h3 { font-size: 1.18rem; margin-bottom: 7px; }
+.work-card p { font-size: 0.86rem; line-height: 1.45; margin-bottom: 12px; }
 .work-card .go-row { display: flex; align-items: center; justify-content: space-between; }
 .work-card .go-row .go-label { font-size: 0.88rem; font-weight: 600; color: var(--text); }
 .arrow-btn {
-  width: 36px; height: 36px;
+  width: 32px; height: 32px;
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   background: var(--accent);
@@ -480,12 +480,12 @@ a:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-
 }
 .work-card:hover .arrow-btn { transform: translateX(4px); }
 .work-card.full-span { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1.3fr; }
-.work-card.full-span .thumb { aspect-ratio: auto; height: 100%; }
+.work-card.full-span .thumb { height: 100%; }
 
 @media (max-width: 860px) {
   .philosophy-grid, .work-grid { grid-template-columns: 1fr; }
   .work-card.full-span { grid-template-columns: 1fr; }
-  .work-card.full-span .thumb { aspect-ratio: 16/10; }
+  .work-card.full-span .thumb { height: 190px; }
 }
 
 /* --- Rafflee case study --- */
@@ -513,85 +513,3 @@ a:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-
 .rafflee-tile-visual small { position:absolute; left:28px; bottom:28px; opacity:.72; font-size:.72rem; }
 .rt-ticket { position:absolute; z-index:2; right:24px; bottom:22px; background:#fff; color:var(--text); border-radius:13px; padding:11px 12px; font-weight:700; font-size:.85rem; box-shadow:0 12px 24px -14px rgba(0,0,0,.45); }
 .rt-ticket b { margin-left:10px; color:var(--accent); font-size:.68rem; }
-
-/* --- Selected work: featured Rafflee + compact supporting work --- */
-#work .work-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
-  align-items: stretch;
-}
-#work .work-card {
-  border-radius: 18px;
-  box-shadow: 0 10px 28px -24px rgba(20,25,15,.45);
-}
-#work .work-card:hover { transform: translateY(-4px); }
-#work .work-card .thumb { aspect-ratio: 16/9; }
-#work .work-card .content { padding: 18px 20px 20px; }
-#work .work-card h3 { font-size: 1.16rem; margin-bottom: 7px; }
-#work .work-card p { font-size: .88rem; line-height: 1.5; margin-bottom: 14px; }
-#work .work-card .tag-pill { margin-bottom: 11px; padding: 4px 10px; font-size: .72rem; }
-#work .work-card .go-label { font-size: .82rem; }
-#work .work-card .arrow-btn { width: 32px; height: 32px; }
-
-/* Rafflee is the featured case study and leads the grid. */
-#work .rafflee-card {
-  order: -1;
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: 1.18fr .82fr;
-  min-height: 360px;
-  background: #162019;
-  color: #fff;
-  border-color: #162019;
-  box-shadow: 0 22px 48px -32px rgba(20,25,15,.65);
-}
-#work .rafflee-card .thumb {
-  height: 100%;
-  min-height: 360px;
-  aspect-ratio: auto;
-  order: 1;
-  border-radius: 0;
-}
-#work .rafflee-card .content {
-  order: 2;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 42px 42px 44px;
-}
-#work .rafflee-card .tag-pill {
-  width: fit-content;
-  background: rgba(255,255,255,.1);
-  color: #e6c66d;
-}
-#work .rafflee-card h3 {
-  font-size: clamp(2rem, 3.2vw, 3.15rem);
-  line-height: 1.02;
-  letter-spacing: -.045em;
-  max-width: 10ch;
-  margin-bottom: 14px;
-  color: #fff;
-}
-#work .rafflee-card p {
-  max-width: 42ch;
-  color: rgba(255,255,255,.72);
-  font-size: .94rem;
-  line-height: 1.6;
-}
-#work .rafflee-card .go-label { color: #fff; }
-#work .rafflee-card .arrow-btn { background: #e6c66d; color: #162019; }
-#work .rafflee-card:hover { box-shadow: 0 28px 60px -34px rgba(20,25,15,.7); }
-
-@media (max-width: 860px) {
-  #work .rafflee-card { grid-template-columns: 1fr; }
-  #work .rafflee-card .thumb { min-height: 300px; order: 1; }
-  #work .rafflee-card .content { order: 2; padding: 30px; }
-  #work .rafflee-card h3 { max-width: 14ch; }
-}
-@media (max-width: 640px) {
-  #work .work-grid { grid-template-columns: 1fr; gap: 14px; }
-  #work .rafflee-card { min-height: 0; }
-  #work .rafflee-card .thumb { min-height: 230px; }
-  #work .rafflee-card .content { padding: 24px; }
-  #work .rafflee-card h3 { font-size: 2.1rem; }
-}
