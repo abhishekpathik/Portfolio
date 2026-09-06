@@ -9,6 +9,8 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="site-progress" aria-hidden="true"></div>
+<button class="back-top" aria-label="Back to top" title="Back to top">↑</button>
 
 <nav class="nav">
   <div class="wrap">
@@ -21,7 +23,10 @@
       Abhishek Pathik
     </a>
     <div class="links">
-      <a class="back" href="index.html#work">Back to work</a>
+      <a href="index.html#work">Work</a>
+      <a href="index.html#philosophy">Philosophy</a>
+      <a href="index.html#experience">Experience</a>
+      <a href="index.html#contact">Contact</a>
     </div>
   </div>
 </nav>
@@ -228,5 +233,10 @@
   </div>
 </footer>
 
+<script>
+const bar=document.querySelector('.site-progress'),topBtn=document.querySelector('.back-top');
+const updateProgress=()=>{const h=document.documentElement.scrollHeight-innerHeight;bar.style.width=(h?scrollY/h*100:0)+'%';topBtn.classList.toggle('show',scrollY>500)};
+addEventListener('scroll',updateProgress,{passive:true});updateProgress();topBtn.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+</script>
 </body>
 </html>

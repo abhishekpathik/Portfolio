@@ -487,3 +487,24 @@ a:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-
   .work-card.full-span { grid-template-columns: 1fr; }
   .work-card.full-span .thumb { aspect-ratio: 16/10; }
 }
+
+
+/* Full prototype polish */
+body{overflow-x:hidden}
+.nav{box-shadow:0 1px 0 rgba(20,25,15,.08)}
+.hero{min-height:690px}
+.hero .photo{border-radius:24px;box-shadow:0 22px 60px -28px rgba(20,25,15,.28)}
+.hero-motif{animation:float-motif 7s ease-in-out infinite}
+@keyframes float-motif{50%{transform:translate3d(8px,-8px,0) rotate(2deg)}}
+.work-card,.philosophy-item,.principle-card,.impact-card,.ba-col{backdrop-filter:blur(4px)}
+.work-card .thumb{background:linear-gradient(135deg,var(--accent-tint),var(--accent2-tint))}
+.cs-hero{padding-top:92px}
+.cs-hero h1{max-width:19ch}
+.cs-hero-img img{width:100%;max-height:680px;object-fit:cover;border-radius:24px;box-shadow:0 24px 70px -34px rgba(20,25,15,.3)}
+.cs-section>.full-img img,.cs-section>.img-row img,.cs-section>.gallery img{border-radius:18px;box-shadow:0 12px 34px -22px rgba(20,25,15,.24)}
+.next-project{border-top:1px solid var(--border)}
+.next-project h2{max-width:18ch;margin-left:auto;margin-right:auto}
+.site-progress{position:fixed;top:0;left:0;height:3px;width:0;background:#C99A2E;z-index:100;transition:width .08s linear}
+.back-top{position:fixed;right:24px;bottom:24px;width:42px;height:42px;border:1px solid var(--border);background:rgba(255,255,255,.92);border-radius:50%;display:grid;place-items:center;box-shadow:var(--shadow);opacity:0;pointer-events:none;transform:translateY(8px);transition:.25s;z-index:30}
+.back-top.show{opacity:1;pointer-events:auto;transform:none}
+@media(max-width:640px){.hero{min-height:0}.hero .photo{border-radius:18px}.cs-hero{padding-top:64px}.back-top{right:16px;bottom:16px}}
