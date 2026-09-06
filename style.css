@@ -655,7 +655,7 @@ p { color: var(--text-muted); }
 }
 .work-card.rafflee-card .tag-pill { width: fit-content; }
 .work-card.rafflee-card h3 { font-size: clamp(1.65rem, 3vw, 2.5rem); margin-bottom: 10px; }
-.work-card.rafflee-card p { font-size: .9rem; max-width: 42ch; }
+.work-card.rafflee-card p { font-size: .88rem; max-width: 38ch; }
 .work-card.rafflee-card .go-row { max-width: 330px; }
 
 .rafflee-thumb { background: #11151c; }
@@ -671,8 +671,8 @@ p { color: var(--text-muted); }
 .rt-ticket b { color: #596474; }
 
 /* Compact all remaining tiles by roughly another 25%. */
-.work-card:not(.rafflee-card) .thumb { aspect-ratio: 16 / 5.5; }
-.work-card:not(.rafflee-card) .content { min-height: 172px; }
+.work-card:not(.rafflee-card) .thumb { aspect-ratio: 16 / 6.9; }
+.work-card:not(.rafflee-card) .content { min-height: 145px; }
 
 /* Other homepage sections follow the same slick surface language. */
 .philosophy-grid { border-top-color: var(--border); }
@@ -721,7 +721,7 @@ p { color: var(--text-muted); }
   .work-card.rafflee-card { grid-column: 1 / -1; grid-template-columns: 1fr; }
   .work-card.rafflee-card .thumb { order: 0; min-height: 180px; aspect-ratio: 16 / 6; }
   .work-card.rafflee-card .content { padding: 24px; }
-  .work-card:not(.rafflee-card) .thumb { aspect-ratio: 16 / 6; }
+  .work-card:not(.rafflee-card) .thumb { aspect-ratio: 16 / 6.5; }
 }
 @media (max-width: 640px) {
   .hero { padding-top: 88px; padding-bottom: 64px; }
