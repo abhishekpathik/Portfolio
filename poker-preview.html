@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redesigning the Poker Game Table — Abhishek Pathik</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   Abhishek Pathik — Portfolio
+   Design tokens — premium, minimal, one accent
+   ============================================ */
+:root {
+  --bg: #FAFAF4;
+  --surface: #FFFFFF;
+  --text: #14190F;
+  --text-muted: #5C6459;
+  --text-faint: #949C8B;
+  --border: #E3E7D9;
+  --accent: #2E6F40;
+  --accent-dim: #B9D4C0;
+  --accent-tint: #E4EFE6;
+  --accent2: #C99A2E;
+  --accent2-tint: #FBF1DA;
+  --accent2-text: #8A6A1B;
+  --nav-bg: #2E6F40;
+  --btn-text: #FAFAF4;
+  --shadow: 0 6px 20px -8px rgba(20, 25, 15, 0.10);
+  --shadow-hover: 0 18px 34px -14px rgba(20, 25, 15, 0.18);
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Archivo', sans-serif;
+  --max-w: 1080px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+
+.wrap {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* Typography */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.05;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+h1 { font-size: clamp(2.9rem, 6.4vw, 5.2rem); font-weight: 800; }
+.eyebrow { }
+h2 { font-size: clamp(1.7rem, 3.2vw, 2.3rem); font-weight: 700; }
+h3 { font-size: 1.28rem; font-weight: 700; }
+
+p { max-width: 62ch; color: var(--text-muted); font-size: 1rem; }
+.lede { font-size: 1.1rem; color: var(--text); max-width: 58ch; }
+
+.eyebrow {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 20px;
+}
+
+/* Nav */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--nav-bg);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.14);
+}
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+.nav .brand { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; color: #FFFFFF; letter-spacing: -0.01em; display: inline-flex; align-items: center; gap: 10px; }
+.nav .brand .mark { flex-shrink: 0; border-radius: 50%; }
+.nav .links { display: flex; gap: 30px; font-size: 0.88rem; color: rgba(255,255,255,0.88); font-weight: 500; }
+.nav .links a { display: inline-flex; align-items: center; gap: 7px; transition: color .2s ease, opacity .2s ease; }
+.nav .links a svg { flex-shrink: 0; }
+.nav .links a:hover { color: #FFFFFF; opacity: 1; }
+.nav .links a.back::before { content: ""; }
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  transition: border-color .25s ease, color .25s ease;
+  color: var(--text);
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn.solid { background: var(--accent); border-color: var(--accent); color: var(--btn-text); font-weight: 600; }
+.btn.solid:hover { background: transparent; color: var(--accent); }
+
+/* Hero */
+.hero {
+  padding-top: 140px;
+  padding-bottom: 100px;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 60px;
+  align-items: end;
+  border-bottom: 1px solid var(--border);
+}
+.hero h1 span { display: block; }
+.hero .role {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-top: 22px;
+  letter-spacing: 0.08em;
+}
+.hero .bio { margin-top: 22px; }
+.hero .photo-wrap { position: relative; }
+.hero-motif {
+  position: absolute;
+  top: -40px;
+  right: -60px;
+  color: var(--accent);
+  opacity: 0.14;
+  z-index: 0;
+  pointer-events: none;
+}
+.hero .photo {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  aspect-ratio: 4/5;
+  overflow: hidden;
+  filter: grayscale(0.15) contrast(1.02);
+}
+.hero .photo img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Sections */
+.section { padding: 100px 0; border-bottom: 1px solid var(--border); }
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 56px;
+  gap: 24px;
+}
+.section-head .count { color: var(--text-faint); font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+
+/* Work list — no cards, pure editorial rows */
+.work-item {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 48px;
+  padding: 56px 0;
+  border-top: 1px solid var(--border);
+  align-items: center;
+}
+.work-item:first-child { border-top: none; padding-top: 0; }
+.work-item .thumb { overflow: hidden; aspect-ratio: 16/11; }
+.work-item .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+.work-item:hover .thumb img { transform: scale(1.03); }
+.work-item h3 { font-size: 1.7rem; margin-bottom: 16px; }
+.work-item .tag { display: block; color: var(--text-faint); font-size: 0.85rem; margin-bottom: 14px; }
+.work-item .go {
+  margin-top: 22px;
+  font-size: 0.92rem;
+  color: var(--text);
+  display: inline-block;
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--border);
+}
+.work-item:hover .go { border-color: var(--accent); color: var(--accent); }
+.work-item.reverse { grid-template-columns: 1.15fr 1fr; }
+.work-item.reverse .thumb { order: 2; }
+
+/* Philosophy — plain list, numbered by real sequence removed, use hairline divider instead */
+.philosophy-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; border-top: 1px solid var(--border); }
+.philosophy-item {
+  padding: 32px 40px 32px 0;
+  border-bottom: 1px solid var(--border);
+}
+.philosophy-item:nth-child(odd) { border-right: 1px solid var(--border); }
+.philosophy-item .mark { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; color: var(--text); margin-bottom: 10px; }
+
+/* Experience — true sequence, so a rule works here */
+.exp-row {
+  display: grid;
+  grid-template-columns: 150px 1fr 1.3fr;
+  gap: 32px;
+  padding: 32px 0;
+  border-top: 1px solid var(--border);
+}
+.exp-row:first-child { border-top: none; }
+.exp-row .years { color: var(--text-faint); font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+.exp-row .role { font-weight: 700; font-family: var(--font-display); font-size: 1.1rem; }
+.exp-row .company { color: var(--accent); font-size: 0.92rem; margin-top: 4px; }
+.exp-row .desc { color: var(--text-muted); font-size: 0.94rem; }
+
+/* Footer */
+.footer { background: var(--accent); }
+.footer-inner { padding-top: 80px; padding-bottom: 56px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+.footer-brand { display: flex; align-items: flex-start; gap: 20px; }
+.footer-brand svg { flex-shrink: 0; margin-top: 2px; }
+.footer .cta h2 { margin-bottom: 18px; color: #FFFFFF; }
+.footer .meta { color: rgba(255,255,255,0.72); font-size: 0.88rem; }
+.footer .btn { color: #FFFFFF; border-color: rgba(255,255,255,0.35); }
+.footer .btn:hover { border-color: #FFFFFF; color: #FFFFFF; opacity: 0.9; }
+.footer .btn.solid { background: #FFFFFF; color: var(--accent); border-color: #FFFFFF; }
+.footer .btn.solid:hover { background: rgba(255,255,255,0.88); box-shadow: none; }
+
+/* Case study pages */
+.cs-hero { padding-top: 80px; padding-bottom: 40px; }
+.cs-hero h1 { font-size: clamp(2.1rem, 4.4vw, 3.3rem); max-width: 17ch; }
+.cs-meta {
+  display: flex;
+  gap: 48px;
+  margin-top: 44px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.cs-meta div span { display: block; color: var(--text-faint); font-size: 0.8rem; margin-bottom: 8px; }
+.cs-hero-img { margin: 44px 0 0; overflow: hidden; }
+
+.cs-section { padding-top: 72px; padding-bottom: 72px; border-top: 1px solid var(--border); }
+.cs-section h2 { margin-bottom: 28px; }
+.cs-section .lede { margin-bottom: 22px; }
+
+.goal-list { list-style: none; padding: 0; margin: 26px 0 0; display: grid; gap: 16px; }
+.goal-list li { padding-left: 24px; position: relative; color: var(--text-muted); }
+.goal-list li::before {
+  content: "";
+  position: absolute; left: 0; top: 10px;
+  width: 6px; height: 6px;
+  background: var(--accent);
+}
+
+/* Principles / impact — plain columns with top rule, no boxes */
+.principle-grid, .impact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  border-top: none;
+}
+.principle-card, .impact-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 26px;
+  box-shadow: var(--shadow);
+  transition: transform .3s cubic-bezier(.22,.68,0,1.01), box-shadow .3s ease;
+}
+.principle-card:hover, .impact-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+.principle-card h3, .impact-card h3 { font-size: 1.05rem; margin-bottom: 12px; }
+.principle-card .def { font-size: 0.92rem; color: var(--text-faint); margin-bottom: 14px; }
+.principle-card .app, .impact-card p { font-size: 0.92rem; margin: 0; }
+.principle-card .icon-badge, .impact-card .icon-badge {
+  width: 40px; height: 40px;
+  border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+}
+.principle-card:nth-child(odd) .icon-badge, .impact-card:nth-child(odd) .icon-badge { background: var(--accent-tint); color: var(--accent); }
+.principle-card:nth-child(even) .icon-badge, .impact-card:nth-child(even) .icon-badge { background: var(--accent2-tint); color: var(--accent2-text); }
+
+.before-after { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 32px 0; border-top: none; border-bottom: none; }
+.ba-col {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 26px 28px;
+  box-shadow: var(--shadow);
+}
+.ba-col.after { box-shadow: var(--shadow-hover); border-color: var(--accent-dim); }
+.ba-col .label { font-size: 0.78rem; color: var(--text-faint); margin-bottom: 12px; letter-spacing: 0.02em; font-weight: 600; text-transform: uppercase; }
+.ba-col.after .label { color: var(--accent); }
+.ba-col p { font-size: 0.92rem; margin: 0; }
+.ba-col .impact { margin-top: 16px; font-size: 0.88rem; color: var(--accent); font-weight: 600; }
+
+.full-img { margin: 32px 0; overflow: hidden; }
+.img-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 32px 0; }
+.img-row figure { margin: 0; }
+.img-row figcaption { font-size: 0.82rem; color: var(--text-faint); margin-top: 10px; }
+
+.gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 32px; }
+.gallery img { border: none; }
+
+.next-project { padding-top: 100px; padding-bottom: 100px; text-align: center; }
+.next-project span { color: var(--text-faint); font-size: 0.9rem; }
+.next-project h2 { margin: 16px 0 34px; }
+
+/* Responsive */
+@media (max-width: 860px) {
+  .wrap { padding: 0 24px; }
+  .hero { grid-template-columns: 1fr; padding-top: 100px; padding-bottom: 70px; gap: 36px; }
+  .hero .photo { max-width: 180px; }
+  .work-item, .work-item.reverse { grid-template-columns: 1fr; gap: 24px; padding: 40px 0; }
+  .work-item.reverse .thumb { order: 0; }
+  .philosophy-grid, .principle-grid, .impact-grid, .before-after, .img-row, .gallery { grid-template-columns: 1fr; }
+  .philosophy-item:nth-child(odd) { border-right: none; }
+  .exp-row { grid-template-columns: 1fr; gap: 6px; padding: 24px 0; }
+  .section { padding: 64px 0; }
+  .section-head { flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 40px; }
+  .cs-meta { gap: 28px; }
+  .footer { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 640px) {
+  .wrap { padding: 0 20px; }
+  .nav .wrap { height: 60px; }
+  .nav .brand { font-size: 0.98rem; }
+  .nav .links { gap: 16px; font-size: 0; }
+  .nav .links a { font-size: 0.82rem; }
+  .nav .links a:not(.back):not(:last-child) { display: none; }
+  h1 { font-size: clamp(2.2rem, 9vw, 2.8rem); }
+  .hero .bio { max-width: 40ch; }
+  .cs-meta { flex-direction: column; gap: 20px; }
+  .gallery { gap: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation: none !important; transition: none !important; }
+}
+
+a:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ============================================
+   Micro-interactions
+   ============================================ */
+
+/* Nav links: underline grows from center instead of a flat color swap */
+.nav .links a { position: relative; }
+.nav .links a::after {
+  content: "";
+  position: absolute;
+  left: 50%; right: 50%;
+  bottom: -6px;
+  height: 1px;
+  background: #FFFFFF;
+  transition: left .25s ease, right .25s ease;
+}
+.nav .links a:hover::after { left: 0; right: 0; }
+
+/* Buttons: a slight lift + scale reads as tactile feedback, not just a color change */
+.btn { transition: border-color .25s ease, color .25s ease, transform .2s ease, box-shadow .3s ease; }
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0) scale(0.98); }
+.btn.solid:hover { box-shadow: 0 8px 24px -8px var(--accent-dim); }
+
+/* Hero: heading lines and supporting content stagger in on load */
+.hero h1 span {
+  display: block;
+  opacity: 0;
+  transform: translateY(18px);
+  animation: rise-in .7s cubic-bezier(.22,.68,0,1.01) forwards;
+}
+.hero h1 span:nth-child(2) { animation-delay: .08s; }
+.hero .role { opacity: 0; animation: rise-in .7s cubic-bezier(.22,.68,0,1.01) forwards; animation-delay: .2s; }
+.hero .bio { opacity: 0; animation: rise-in .7s cubic-bezier(.22,.68,0,1.01) forwards; animation-delay: .32s; }
+.hero .hero-cta { opacity: 0; animation: rise-in .7s cubic-bezier(.22,.68,0,1.01) forwards; animation-delay: .44s; }
+.hero .photo-wrap { opacity: 0; animation: rise-in .8s cubic-bezier(.22,.68,0,1.01) forwards; animation-delay: .3s; }
+@keyframes rise-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hero photo: subtle depth parallax on cursor move (desktop only, JS adds the transform) */
+.hero .photo, .hero-motif {
+  transition: transform .35s cubic-bezier(.22,.68,0,1.01);
+  transform-style: preserve-3d;
+}
+
+/* Scroll reveal: sections rise into place as they enter the viewport */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .7s cubic-bezier(.22,.68,0,1.01), transform .7s cubic-bezier(.22,.68,0,1.01);
+}
+.reveal.in-view { opacity: 1; transform: translateY(0); }
+
+/* Work item thumbnails: slightly smoother, longer zoom than a default hover */
+.work-item .thumb img { transition: transform .6s cubic-bezier(.22,.68,0,1.01); }
+
+/* Goal list bullets: a small pop when their row scrolls into view */
+.goal-list li::before { transition: transform .3s ease; }
+.goal-list li:hover::before { transform: scale(1.4); }
+
+/* ============================================
+   Vivid light theme — modern tile/card overrides
+   ============================================ */
+
+.hero .role { color: var(--accent); }
+.work-item .tag, .nav .brand .mark { color: var(--accent); }
+
+/* --- "How I work" — icon tiles with elevation --- */
+.philosophy-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+  border-top: none;
+}
+.philosophy-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: var(--shadow);
+  transition: transform .3s cubic-bezier(.22,.68,0,1.01), box-shadow .3s ease;
+}
+.philosophy-item:nth-child(odd), .philosophy-item:nth-child(even) { border-right: none; border-bottom: none; }
+.philosophy-item:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
+.philosophy-item .icon-badge {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+}
+.philosophy-item:nth-child(odd) .icon-badge { background: var(--accent-tint); color: var(--accent); }
+.philosophy-item:nth-child(even) .icon-badge { background: var(--accent2-tint); color: var(--accent2-text); }
+.philosophy-item .mark { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; color: var(--text); margin-bottom: 10px; }
+.philosophy-item p { font-size: 0.94rem; }
+
+/* --- "Selected work" — modern project cards --- */
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 26px;
+}
+.work-card {
+  display: block;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform .3s cubic-bezier(.22,.68,0,1.01), box-shadow .3s ease;
+}
+.work-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
+.work-card .thumb { aspect-ratio: 16/10; overflow: hidden; }
+.work-card .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s cubic-bezier(.22,.68,0,1.01); }
+.work-card:hover .thumb img { transform: scale(1.05); }
+.work-card .content { padding: 24px 26px 28px; }
+.work-card .tag-pill {
+  display: inline-block;
+  padding: 5px 13px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.work-card:nth-child(odd) .tag-pill { background: var(--accent-tint); color: var(--accent); }
+.work-card:nth-child(even) .tag-pill { background: var(--accent2-tint); color: var(--accent2-text); }
+.work-card h3 { font-size: 1.3rem; margin-bottom: 10px; }
+.work-card p { font-size: 0.92rem; margin-bottom: 20px; }
+.work-card .go-row { display: flex; align-items: center; justify-content: space-between; }
+.work-card .go-row .go-label { font-size: 0.88rem; font-weight: 600; color: var(--text); }
+.arrow-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--accent);
+  color: var(--btn-text);
+  flex-shrink: 0;
+  transition: transform .25s cubic-bezier(.22,.68,0,1.01);
+}
+.work-card:hover .arrow-btn { transform: translateX(4px); }
+.work-card.full-span { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1.3fr; }
+.work-card.full-span .thumb { aspect-ratio: auto; height: 100%; }
+
+@media (max-width: 860px) {
+  .philosophy-grid, .work-grid { grid-template-columns: 1fr; }
+  .work-card.full-span { grid-template-columns: 1fr; }
+  .work-card.full-span .thumb { aspect-ratio: 16/10; }
+}
+
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <svg class="mark" width="32" height="32" viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="20" cy="20" r="19" fill="#FFFFFF"/>
+        <circle cx="20" cy="20" r="19" fill="none" stroke="#2E6F40" stroke-width="0.75" opacity="0.25"/>
+        <text x="20" y="26.5" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="14" letter-spacing="-0.5" fill="#2E6F40">AP</text>
+      </svg>
+      Abhishek Pathik
+    </a>
+    <div class="links">
+      <a class="back" href="index.html#work">Back to work</a>
+    </div>
+  </div>
+</nav>
+
+<header class="cs-hero wrap">
+  <div class="eyebrow">A real-money gaming redesign for Junglee Games</div>
+  <h1>Redesigning the Poker Game Table</h1>
+  <p class="lede">A cleaner, more intuitive redesign of the poker game table that reduces clutter and cognitive load, delivering a more immersive player experience.</p>
+  <div class="cs-meta">
+    <div><span>Role</span>Senior Product Designer</div>
+    <div><span>Focus</span>Interaction &amp; visual design</div>
+    <div><span>Frameworks used</span>Gestalt, Fitts's Law, Hick's Law</div>
+  </div>
+  <div class="cs-hero-img">
+    <img src="https://framerusercontent.com/images/6L5JVlEBhVY3WCzcVepYR86zufk.png?width=1600&height=1256" alt="Redesigned poker game table">
+  </div>
+</header>
+
+<section class="cs-section wrap">
+  <h2>Introduction</h2>
+  <p class="lede">The game table is the core experience of any online card game — it's where players spend most of their time, so it has to be intuitive, visually clear, and engaging.</p>
+  <p>The old design was functional but cluttered, inconsistent, and behind modern usability standards. The redesign aimed to create a cleaner, more immersive, and user-friendly table that improves engagement and reduces cognitive load.</p>
+</section>
+
+<section class="cs-section wrap">
+  <h2>Research &amp; problem identification</h2>
+  <p>Through surveys, in-game feedback, and stakeholder input, multi-tabling professionals in particular reported poor readability of core gameplay elements. Five priorities emerged for where players' attention actually goes:</p>
+  <ul class="goal-list">
+    <li><strong>Cards</strong> — the most critical element for decision-making; players need instant clarity on their own hand and the shared cards.</li>
+    <li><strong>Pot value</strong> — visibility of the total pot to evaluate risk and reward each hand.</li>
+    <li><strong>Bets</strong> — reading self and opponent bet amounts to track the flow of action.</li>
+    <li><strong>Table balance</strong> — chip stacks at a glance, vital for strategy in multi-table play.</li>
+    <li><strong>Username</strong> — identifying opponents by name to support quick recognition in fast-paced games.</li>
+  </ul>
+</section>
+
+<section class="cs-section wrap">
+  <h2>Competitive analysis</h2>
+  <p>Junglee Poker was benchmarked against Natural8 and PokerBaazi across visual design, layout and ergonomics, interactivity, feature availability, and performance. The pattern was consistent: competitors led on visual distinctiveness, clear information hierarchy, and rich feedback, while Junglee's table felt cluttered and its player information hard to parse.</p>
+  <div class="img-row">
+    <figure>
+      <img src="https://framerusercontent.com/images/REQA1DfMBO30vmH7iyCjaI.png?width=996&height=766" alt="PokerBaazi competitor table">
+      <figcaption>PokerBaazi</figcaption>
+    </figure>
+    <figure>
+      <img src="https://framerusercontent.com/images/t2gF3OpB21ZBsQQ7XTWEeTHCM30.png?width=1686&height=1200" alt="Natural8 competitor table">
+      <figcaption>Natural8</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="cs-section wrap">
+  <h2>Design goals</h2>
+  <ul class="goal-list">
+    <li>Simplify the interface by reducing clutter.</li>
+    <li>Improve visual hierarchy for better decision-making.</li>
+    <li>Enhance usability of key actions — Fold, Call, Raise.</li>
+    <li>Create a modern, premium aesthetic aligned with player expectations.</li>
+    <li>Ensure accessibility: readability, color contrast, scalable UI.</li>
+  </ul>
+</section>
+
+<section class="cs-section wrap">
+  <h2>Design principles applied</h2>
+  <div class="principle-grid">
+    <div class="principle-card">
+      <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="9" height="9" rx="2"/><rect x="12" y="12" width="9" height="9" rx="2"/></svg></div>
+      <h3>Gestalt principles</h3>
+      <p class="def">People naturally perceive visual elements as organised groups rather than individual pieces.</p>
+      <p class="app">Grouped player name, chips, and avatar into a single clear unit, cutting clutter and improving scannability.</p>
+    </div>
+    <div class="principle-card">
+      <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.5" fill="currentColor"/></svg></div>
+      <h3>Fitts's Law</h3>
+      <p class="def">Time to reach a target depends on its size and distance — bigger, closer targets are faster to hit.</p>
+      <p class="app">Fold, Call, and Raise were enlarged and moved to the bottom for quick reach, especially on mobile.</p>
+    </div>
+    <div class="principle-card">
+      <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v6M12 9 6 20M12 9l6 11"/></svg></div>
+      <h3>Hick's Law</h3>
+      <p class="def">More choices mean slower decisions — fewer, clearer options speed things up.</p>
+      <p class="app">Simplified betting to preset sizes plus a clear slider, cutting overwhelm and speeding gameplay.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section wrap">
+  <h2>Before &amp; after</h2>
+
+  <div class="before-after">
+    <div class="ba-col before">
+      <div class="label">Before</div>
+      <p>Redundant labels, cluttered chip placement, cropped avatars, and uneven line spacing left players questioning the table's polish.</p>
+    </div>
+    <div class="ba-col after">
+      <div class="label">After</div>
+      <p>A streamlined player layout shows only essentials — name, stack, action.</p>
+      <p class="impact">Impact: players scan the table instantly, with no cognitive overload.</p>
+    </div>
+  </div>
+
+  <div class="before-after">
+    <div class="ba-col before">
+      <div class="label">Before</div>
+      <p>Action buttons had inconsistent colors, low contrast, irregular sizing, and blended into the background.</p>
+    </div>
+    <div class="ba-col after">
+      <div class="label">After</div>
+      <p>Larger, high-contrast buttons in standardized colors — red for Fold, green for Call, orange for Raise — placed for easy thumb reach.</p>
+      <p class="impact">Impact: faster decisions, fewer misclicks.</p>
+    </div>
+  </div>
+
+  <div class="before-after">
+    <div class="ba-col before">
+      <div class="label">Before</div>
+      <p>Hole cards got lost in the clutter, were placed unrealistically on the table, and were too small to read clearly.</p>
+    </div>
+    <div class="ba-col after">
+      <div class="label">After</div>
+      <p>Centralised cards with clear numerals and improved stacking visuals for a realistic, premium feel.</p>
+      <p class="impact">Impact: easier to track cards and bets, more confidence in gameplay.</p>
+    </div>
+  </div>
+
+  <div class="before-after">
+    <div class="ba-col before">
+      <div class="label">Before</div>
+      <p>Turn timers covered player info, status was hard to track, and floating emoji icons felt disconnected from the profile.</p>
+    </div>
+    <div class="ba-col after">
+      <div class="label">After</div>
+      <p>High-visibility status tags (All-in, Check, Disconnected), a glowing active-player highlight, and descriptive winning-hand labels.</p>
+      <p class="impact">Impact: stronger situational awareness, less confusion, more immersion.</p>
+    </div>
+  </div>
+
+  <div class="full-img">
+    <img src="https://framerusercontent.com/images/rJAEX15iyAPyPOXket0D46yZ4oI.png?width=1500&height=792" alt="New game table design">
+  </div>
+</section>
+
+<section class="cs-section wrap">
+  <h2>Impact &amp; business value</h2>
+  <div class="impact-grid">
+    <div class="impact-card">
+      <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12h4l2-7 4 14 3-10 2 3h5"/></svg></div>
+      <h3>Improved engagement</h3>
+      <p>Players spend more time on tables thanks to better usability.</p>
+    </div>
+    <div class="impact-card">
+      <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17 10 10l4 4 7-7"/><path d="M15 7h6v6"/></svg></div>
+      <h3>Reduced drop-offs</h3>
+      <p>A cleaner layout makes it easier for new players to adapt.</p>
+    </div>
+    <div class="impact-card">
+      <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m12 2 2.9 6.3 6.9.9-5 4.8 1.2 6.9L12 17.6 5.9 21l1.2-6.9-5-4.8 6.9-.9L12 2Z"/></svg></div>
+      <h3>Brand perception</h3>
+      <p>An elevated design aligns with modern gaming standards, increasing trust and appeal.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section wrap">
+  <h2>Final outcome</h2>
+  <p class="lede">The redesign transformed the game table into a modern, intuitive, immersive experience. The new interface looks premium while improving usability and reducing cognitive load — letting players focus on strategy rather than fighting the interface.</p>
+  <div class="gallery">
+    <img src="https://framerusercontent.com/images/Am3JzuQknvxym1hQlVCsHNDY.png?width=1600&height=1256" alt="Jackpot table state">
+    <img src="https://framerusercontent.com/images/vYNhTNGLcxcc2XovAQKFnrxZR3g.png?width=1600&height=1256" alt="Showdown state">
+    <img src="https://framerusercontent.com/images/GXGVQbpkBxNZXeRKbyFEiF6GY.png?width=1600&height=1256" alt="Winning state">
+    <img src="https://framerusercontent.com/images/yinqCcG7Mv6ORD3RL5dIPnBADmc.png?width=1600&height=1256" alt="Table themes">
+    <img src="https://framerusercontent.com/images/ZqVpYIxS898ZrxbhPPMEyZAf7Y0.png?width=1600&height=1256" alt="Settings panel">
+    <img src="https://framerusercontent.com/images/kWDr7PRW4KkhyXJhQaqw4UAvck.png?width=1600&height=1256" alt="Tournament table">
+  </div>
+</section>
+
+<section class="next-project wrap">
+  <span>Next case study</span>
+  <h2>Amplifying Zillion Coins on BharatPe</h2>
+  <a class="btn solid" href="bharatpe.html">View case study</a>
+</section>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="20" cy="20" r="19" fill="#FFFFFF"/>
+        <circle cx="20" cy="20" r="19" fill="none" stroke="#2E6F40" stroke-width="0.75" opacity="0.25"/>
+        <text x="20" y="26.5" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="14" letter-spacing="-0.5" fill="#2E6F40">AP</text>
+      </svg>
+      <div class="cta">
+        <h2>Let's work together</h2>
+        <a class="btn solid" href="mailto:abhishekpathik@gmail.com">abhishekpathik@gmail.com</a>
+      </div>
+    </div>
+    <div class="meta">© 2026 Abhishek Pathik. Based in India.</div>
+  </div>
+</footer>
+
+</body>
+</html>
