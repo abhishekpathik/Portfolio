@@ -488,23 +488,28 @@ a:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-
   .work-card.full-span .thumb { aspect-ratio: 16/10; }
 }
 
+/* --- Rafflee case study --- */
+.cs-kicker { color: var(--accent); font-size: .78rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; margin-bottom: 18px; }
+.rafflee-hero h1 { max-width: 18ch; }
+.rafflee-hero-visual { margin-top: 52px; }
+.rafflee-browser { background: #172016; border-radius: 22px; padding: 12px; box-shadow: 0 24px 60px -30px rgba(20,25,15,.38); overflow:hidden; }
+.rb-top { height: 42px; display:flex; align-items:center; gap:7px; padding:0 12px; color:#fff; font-size:.8rem; }
+.rb-top > span { width:7px;height:7px;border-radius:50%;background:#8b9788;opacity:.7; }.rb-top b { margin:auto; font-family:var(--font-display); letter-spacing:-.02em; }.rb-top i { font-style:normal; opacity:.7; }
+.rb-body { background:#f4f5ed; border-radius:15px; padding:52px; display:grid; grid-template-columns:1fr 1fr; gap:48px; min-height:430px; align-items:center; }
+.rb-copy small { color:var(--accent); font-weight:700; letter-spacing:.12em; font-size:.68rem; }.rb-copy h3 { font-size:clamp(2rem,4vw,4rem); margin:12px 0 18px; }.rb-copy p { max-width:42ch; }.rb-copy button { margin-top:18px; border:0; background:var(--accent); color:#fff; border-radius:13px; padding:13px 17px; font-weight:600; }.rb-copy button b { margin-left:10px; }
+.rb-stack { position:relative; min-height:310px; }.rb-card { background:#fff; border:1px solid #dfe4d7; border-radius:20px; overflow:hidden; box-shadow:0 18px 40px -25px rgba(20,25,15,.28); }.rb-main { width:78%; margin-left:auto; position:relative; z-index:2; transform:rotate(2deg); }.rb-side { width:68%; position:absolute; left:0; bottom:10px; z-index:1; transform:rotate(-5deg); }.rb-image { height:160px; display:flex; align-items:flex-end; padding:18px; color:#fff; font-family:var(--font-display); font-size:2rem; font-weight:700; }.gradient-a { background:linear-gradient(135deg,#2e6f40 0%,#91ad68 55%,#e6c66d 100%); }.gradient-b { background:linear-gradient(135deg,#1b4030,#507f55 60%,#d8b75d); }.gradient-c { background:linear-gradient(135deg,#7f9a5e,#d4ad52 60%,#f0e4bb); }.rb-card-copy { padding:15px 17px 18px; display:grid; gap:5px; }.rb-card-copy small { color:#77806f; }.rb-progress,.detail-progress { height:6px; border-radius:99px; background:#e8ece3; overflow:hidden; margin-top:8px; }.rb-progress span,.detail-progress span { display:block; width:58%; height:100%; background:var(--accent); border-radius:inherit; }
+.flow-strip { display:grid; grid-template-columns:1fr auto 1fr auto 1fr auto 1fr; align-items:center; gap:16px; margin-top:34px; }.flow-strip > div:not(.flow-arrow) { padding:22px; background:#fff; border:1px solid var(--border); border-radius:16px; box-shadow:var(--shadow); }.flow-strip b { display:block; color:var(--accent); font-size:.76rem; margin-bottom:12px; }.flow-strip strong { display:block; font-family:var(--font-display); }.flow-strip span { display:block; color:var(--text-muted); font-size:.84rem; margin-top:6px; }.flow-arrow { color:var(--accent); font-size:1.2rem; }
+.rafflee-three { grid-template-columns:repeat(3,1fr); }.rafflee-ia h3 { margin-bottom:8px; }.rafflee-ui-grid { display:grid; grid-template-columns: .8fr 1.2fr; gap:28px; align-items:center; margin-top:36px; }.rafflee-phone { max-width:340px; margin:auto; background:#f7f8f1; border:9px solid #182117; border-radius:34px; padding:18px; min-height:600px; position:relative; box-shadow:0 24px 50px -28px rgba(20,25,15,.38); }.phone-notch { width:92px; height:20px; border-radius:0 0 15px 15px; background:#182117; position:absolute; left:50%; top:0; transform:translateX(-50%); }.phone-head { display:flex; justify-content:space-between; margin-top:20px; font-family:var(--font-display); }.phone-feature { margin-top:22px; border-radius:20px; min-height:220px; color:#fff; padding:20px; display:flex; flex-direction:column; justify-content:flex-end; }.phone-feature small { opacity:.8; letter-spacing:.1em; }.phone-feature strong { font-family:var(--font-display); font-size:1.7rem; line-height:1; margin:8px 0; }.phone-feature em { font-style:normal; opacity:.85; font-size:.8rem; }.phone-section { display:flex; justify-content:space-between; margin:24px 0 14px; font-size:.85rem; }.phone-section span { color:var(--accent); }.mini-list { display:grid; gap:12px; }.mini-list > div { display:flex; align-items:center; gap:10px; background:#fff; border:1px solid var(--border); border-radius:14px; padding:10px; }.mini-pic { width:48px; height:48px; border-radius:10px; display:block; }.mini-list span { display:grid; gap:2px; flex:1; }.mini-list small { color:var(--text-faint); }.rafflee-detail-card { background:#fff; border:1px solid var(--border); border-radius:22px; padding:30px; box-shadow:var(--shadow); }.detail-top { display:flex; justify-content:space-between; align-items:center; font-size:.8rem; }.detail-top span { color:var(--accent); font-weight:700; background:var(--accent-tint); padding:5px 9px; border-radius:999px; }.detail-top small { color:var(--text-faint); }.detail-prize { margin:22px 0; min-height:260px; border-radius:18px; color:#fff; display:flex; align-items:flex-end; padding:22px; font-family:var(--font-display); font-size:2.2rem; }.rafflee-detail-card h3 { font-size:2rem; margin-bottom:12px; }.detail-stat { display:flex; justify-content:space-between; font-size:.86rem; margin-top:22px; }.detail-progress { margin:10px 0 22px; }.detail-progress span { width:51%; }.rafflee-detail-card .btn { border-radius:14px; width:100%; justify-content:center; }
+.reveal { opacity:0; transform:translateY(18px); transition:opacity .55s ease, transform .55s ease; }.reveal.visible { opacity:1; transform:none; }
+@media(max-width:860px){.rb-body{grid-template-columns:1fr;padding:34px}.rb-stack{min-height:260px}.flow-strip{grid-template-columns:1fr 1fr}.flow-arrow{display:none}.rafflee-three{grid-template-columns:1fr}.rafflee-ui-grid{grid-template-columns:1fr}.rafflee-phone{max-width:310px}}
+@media(max-width:640px){.rb-body{padding:24px;gap:24px}.rb-copy h3{font-size:2.3rem}.rb-main{width:82%}.rb-side{width:72%}.rafflee-detail-card{padding:22px}.detail-prize{min-height:210px}.flow-strip{grid-template-columns:1fr}}
 
-/* Full prototype polish */
-body{overflow-x:hidden}
-.nav{box-shadow:0 1px 0 rgba(20,25,15,.08)}
-.hero{min-height:690px}
-.hero .photo{border-radius:24px;box-shadow:0 22px 60px -28px rgba(20,25,15,.28)}
-.hero-motif{animation:float-motif 7s ease-in-out infinite}
-@keyframes float-motif{50%{transform:translate3d(8px,-8px,0) rotate(2deg)}}
-.work-card,.philosophy-item,.principle-card,.impact-card,.ba-col{backdrop-filter:blur(4px)}
-.work-card .thumb{background:linear-gradient(135deg,var(--accent-tint),var(--accent2-tint))}
-.cs-hero{padding-top:92px}
-.cs-hero h1{max-width:19ch}
-.cs-hero-img img{width:100%;max-height:680px;object-fit:cover;border-radius:24px;box-shadow:0 24px 70px -34px rgba(20,25,15,.3)}
-.cs-section>.full-img img,.cs-section>.img-row img,.cs-section>.gallery img{border-radius:18px;box-shadow:0 12px 34px -22px rgba(20,25,15,.24)}
-.next-project{border-top:1px solid var(--border)}
-.next-project h2{max-width:18ch;margin-left:auto;margin-right:auto}
-.site-progress{position:fixed;top:0;left:0;height:3px;width:0;background:#C99A2E;z-index:100;transition:width .08s linear}
-.back-top{position:fixed;right:24px;bottom:24px;width:42px;height:42px;border:1px solid var(--border);background:rgba(255,255,255,.92);border-radius:50%;display:grid;place-items:center;box-shadow:var(--shadow);opacity:0;pointer-events:none;transform:translateY(8px);transition:.25s;z-index:30}
-.back-top.show{opacity:1;pointer-events:auto;transform:none}
-@media(max-width:640px){.hero{min-height:0}.hero .photo{border-radius:18px}.cs-hero{padding-top:64px}.back-top{right:16px;bottom:16px}}
+/* Rafflee work tile */
+.rafflee-thumb { background:#172016; position:relative; }
+.rafflee-tile-visual { position:absolute; inset:0; padding:28px; color:#fff; background:linear-gradient(135deg,#172016 0%,#2e6f40 58%,#d2ad4d 145%); overflow:hidden; }
+.rafflee-tile-visual:after { content:""; position:absolute; width:170px; height:170px; border:1px solid rgba(255,255,255,.25); border-radius:50%; right:-50px; top:-35px; box-shadow:-35px 35px 0 -34px rgba(255,255,255,.18),-70px 70px 0 -69px rgba(255,255,255,.12); }
+.rt-label { position:relative; z-index:1; font-size:.67rem; letter-spacing:.14em; opacity:.75; }
+.rafflee-tile-visual strong { position:relative; z-index:1; display:block; font-family:var(--font-display); font-size:clamp(1.7rem,3vw,2.8rem); line-height:.98; margin-top:18px; letter-spacing:-.04em; }
+.rafflee-tile-visual small { position:absolute; left:28px; bottom:28px; opacity:.72; font-size:.72rem; }
+.rt-ticket { position:absolute; z-index:2; right:24px; bottom:22px; background:#fff; color:var(--text); border-radius:13px; padding:11px 12px; font-weight:700; font-size:.85rem; box-shadow:0 12px 24px -14px rgba(0,0,0,.45); }
+.rt-ticket b { margin-left:10px; color:var(--accent); font-size:.68rem; }

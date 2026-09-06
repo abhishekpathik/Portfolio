@@ -10,8 +10,6 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="site-progress" aria-hidden="true"></div>
-<button class="back-top" aria-label="Back to top" title="Back to top">↑</button>
 
 <nav class="nav">
   <div class="wrap">
@@ -61,10 +59,26 @@
   <div class="wrap">
     <div class="section-head reveal">
       <h2>Selected work</h2>
-      <span class="count">Four projects</span>
+      <span class="count">Five projects</span>
     </div>
 
     <div class="work-grid">
+      <a class="work-card reveal rafflee-card" href="rafflee.html" style="text-decoration:none;">
+        <div class="thumb rafflee-thumb">
+          <div class="rafflee-tile-visual"><span class="rt-label">RAFFLEE</span><strong>Something<br>worth winning.</strong><small>0 → 1 product design</small><div class="rt-ticket">£5 <b>ENTER →</b></div></div>
+        </div>
+        <div class="content">
+          <span class="tag-pill">0→1 consumer product</span>
+          <h3>Building Rafflee from scratch</h3>
+          <p>Designing the product foundation for a competition experience — from discovery and entry to trust, tracking, and outcomes.</p>
+          <div class="go-row">
+            <span class="go-label">Read the case study</span>
+            <span class="arrow-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </div>
+      </a>
+
+
       <a class="work-card reveal" href="poker.html" style="text-decoration:none;">
         <div class="thumb">
           <img src="https://framerusercontent.com/images/6L5JVlEBhVY3WCzcVepYR86zufk.png?width=1600&height=1256" alt="Poker game table redesign">
@@ -259,10 +273,5 @@
   }
 </script>
 
-<script>
-const bar=document.querySelector('.site-progress'),topBtn=document.querySelector('.back-top');
-const updateProgress=()=>{const h=document.documentElement.scrollHeight-innerHeight;bar.style.width=(h?scrollY/h*100:0)+'%';topBtn.classList.toggle('show',scrollY>500)};
-addEventListener('scroll',updateProgress,{passive:true});updateProgress();topBtn.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
-</script>
 </body>
 </html>
