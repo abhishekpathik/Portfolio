@@ -3,12 +3,12 @@
    Design tokens — premium, minimal, one accent
    ============================================ */
 :root {
-  --bg: #FAFAF4;
-  --surface: #FFFFFF;
+  --bg: #FFFFFF;
+  --surface: #F4FAF5;
   --text: #14190F;
   --text-muted: #5C6459;
   --text-faint: #949C8B;
-  --border: #E3E7D9;
+  --border: #D3E0D6;
   --accent: #2E6F40;
   --accent-dim: #B9D4C0;
   --accent-tint: #E4EFE6;
@@ -16,7 +16,7 @@
   --accent2-tint: #FBF1DA;
   --accent2-text: #8A6A1B;
   --nav-bg: #2E6F40;
-  --btn-text: #FAFAF4;
+  --btn-text: #FFFFFF;
   --shadow: 0 6px 20px -8px rgba(20, 25, 15, 0.10);
   --shadow-hover: 0 18px 34px -14px rgba(20, 25, 15, 0.18);
   --font-display: 'Space Grotesk', sans-serif;
@@ -311,7 +311,6 @@ p { max-width: 62ch; color: var(--text-muted); font-size: 1rem; }
   .work-item, .work-item.reverse { grid-template-columns: 1fr; gap: 24px; padding: 40px 0; }
   .work-item.reverse .thumb { order: 0; }
   .philosophy-grid, .principle-grid, .impact-grid, .before-after, .img-row, .gallery { grid-template-columns: 1fr; }
-  .philosophy-item:nth-child(odd) { border-right: none; }
   .exp-row { grid-template-columns: 1fr; gap: 6px; padding: 24px 0; }
   .section { padding: 64px 0; }
   .section-head { flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 40px; }
@@ -418,11 +417,7 @@ a:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-
   border: 1px solid var(--border);
   border-radius: 20px;
   padding: 30px;
-  box-shadow: var(--shadow);
-  transition: transform .3s cubic-bezier(.22,.68,0,1.01), box-shadow .3s ease;
 }
-.philosophy-item:nth-child(odd), .philosophy-item:nth-child(even) { border-right: none; border-bottom: none; }
-.philosophy-item:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
 .philosophy-item .icon-badge {
   width: 44px; height: 44px;
   border-radius: 12px;
@@ -486,4 +481,42 @@ a:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-
   .philosophy-grid, .work-grid { grid-template-columns: 1fr; }
   .work-card.full-span { grid-template-columns: 1fr; }
   .work-card.full-span .thumb { aspect-ratio: 16/10; }
+}
+
+/* ============================================
+   Custom cursor — green dot, appears once the mouse enters
+   ============================================ */
+html.custom-cursor-active, html.custom-cursor-active body {
+  cursor: none;
+}
+html.custom-cursor-active a,
+html.custom-cursor-active button,
+html.custom-cursor-active .btn,
+html.custom-cursor-active .work-card,
+html.custom-cursor-active input,
+html.custom-cursor-active textarea {
+  cursor: none;
+}
+
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  color: var(--accent);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-2px, -2px) scale(0);
+  opacity: 0;
+  transition: opacity .15s ease, transform .15s cubic-bezier(.22,.68,0,1.01);
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
+}
+.custom-cursor svg { display: block; }
+.custom-cursor.is-visible {
+  opacity: 1;
+  transform: translate(-2px, -2px) scale(1);
+}
+.custom-cursor.is-hovering {
+  transform: translate(-2px, -2px) scale(1.35);
 }
