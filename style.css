@@ -451,10 +451,10 @@ a:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-
   transition: transform .3s cubic-bezier(.22,.68,0,1.01), box-shadow .3s ease;
 }
 .work-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
-.work-card .thumb { aspect-ratio: 16/10; overflow: hidden; }
+.work-card .thumb { aspect-ratio: 16/7.5; overflow: hidden; }
 .work-card .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s cubic-bezier(.22,.68,0,1.01); }
 .work-card:hover .thumb img { transform: scale(1.05); }
-.work-card .content { padding: 24px 26px 28px; }
+.work-card .content { padding: 20px 24px 24px; }
 .work-card .tag-pill {
   display: inline-block;
   padding: 5px 13px;
@@ -465,8 +465,8 @@ a:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-
 }
 .work-card:nth-child(odd) .tag-pill { background: var(--accent-tint); color: var(--accent); }
 .work-card:nth-child(even) .tag-pill { background: var(--accent2-tint); color: var(--accent2-text); }
-.work-card h3 { font-size: 1.3rem; margin-bottom: 10px; }
-.work-card p { font-size: 0.92rem; margin-bottom: 20px; }
+.work-card h3 { font-size: 1.25rem; margin-bottom: 8px; }
+.work-card p { font-size: 0.9rem; margin-bottom: 16px; }
 .work-card .go-row { display: flex; align-items: center; justify-content: space-between; }
 .work-card .go-row .go-label { font-size: 0.88rem; font-weight: 600; color: var(--text); }
 .arrow-btn {
