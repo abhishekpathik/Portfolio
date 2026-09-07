@@ -3,126 +3,178 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rafflee — Building a competition product from scratch — Abhishek Pathik</title>
+<title>Designing Rafflee — Abhishek Pathik</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 <nav class="nav">
   <div class="wrap">
     <a href="index.html" class="brand">
-      <svg class="mark" width="32" height="32" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="#FFFFFF"/><circle cx="20" cy="20" r="19" fill="none" stroke="#2E6F40" stroke-width="0.75" opacity="0.25"/><text x="20" y="26.5" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="14" letter-spacing="-0.5" fill="#2E6F40">AP</text></svg>
+      <svg class="mark" width="32" height="32" viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="20" cy="20" r="19" fill="#FFFFFF"/>
+        <circle cx="20" cy="20" r="19" fill="none" stroke="#2E6F40" stroke-width="0.75" opacity="0.25"/>
+        <text x="20" y="26.5" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="14" letter-spacing="-0.5" fill="#2E6F40">AP</text>
+      </svg>
       Abhishek Pathik
     </a>
-    <div class="links"><a class="back" href="index.html#work">Back to work</a></div>
+    <div class="links">
+      <a class="back" href="index.html#work">Back to work</a>
+    </div>
   </div>
 </nav>
 
-<header class="cs-hero wrap rafflee-hero">
-  <div class="eyebrow">Product design · 0 → 1 · Consumer experience</div>
-  <h1>Rafflee: building a competition experience from scratch</h1>
-  <p class="lede">There was no legacy interface to tidy up and no established pattern to copy. We had to define what Rafflee should feel like, how people would discover a competition, and how the product could make entering feel simple, exciting, and trustworthy.</p>
+<header class="cs-hero wrap">
+  <div class="eyebrow">A 0-to-1 platform for Junglee Games</div>
+  <h1>Designing Rafflee, a UK Prize Draw Platform</h1>
+  <p class="lede">Rafflee is a real-money prize-draw and competitions platform built for the UK market — designed and shipped from scratch, from account creation through to entering a draw and winning.</p>
   <div class="cs-meta">
     <div><span>Role</span>Product Designer</div>
-    <div><span>Focus</span>0→1 product · UX · UI</div>
-    <div><span>Scope</span>Discovery · entry · trust · system</div>
+    <div><span>Scope</span>0 → 1, web, mobile web &amp; app</div>
+    <div><span>Launched</span>November 2025</div>
   </div>
-  <div class="rafflee-hero-visual">
-    <div class="rafflee-browser">
-      <div class="rb-top"><span></span><span></span><span></span><b>rafflee</b><i>⌕</i></div>
-      <div class="rb-body">
-        <div class="rb-copy"><small>LIVE COMPETITIONS</small><h3>Something worth<br>winning.</h3><p>Find a competition you care about, understand the odds, and enter without the friction.</p><button>Explore competitions <b>→</b></button></div>
-        <div class="rb-stack">
-          <div class="rb-card rb-main"><div class="rb-image gradient-a"><span>WIN</span></div><div class="rb-card-copy"><strong>Weekend escape</strong><small>£5 entry · 18 days left</small><div class="rb-progress"><span></span></div></div></div>
-          <div class="rb-card rb-side"><div class="rb-image gradient-b"><span>PRIZE</span></div><div class="rb-card-copy"><strong>Latest drops</strong><small>Limited entries</small></div></div>
-        </div>
-      </div>
-    </div>
+  <div class="cs-hero-img">
+    <img src="assets/rafflee-home.jpg" alt="Rafflee homepage with a featured competition" style="width:100%;">
   </div>
 </header>
 
 <section class="cs-section wrap">
-  <div class="cs-kicker">01 · The starting point</div>
-  <h2>Starting with a blank canvas</h2>
-  <p class="lede">Rafflee was a true 0→1 challenge. Instead of inheriting an existing information architecture or interaction model, we had to decide what the product was, what mattered on day one, and what should stay out of the way.</p>
-  <p>The design problem was bigger than making a raffle interface look attractive. A user needs to understand the prize, the cost of entry, the state of the competition, and what happens next — quickly enough to feel confident before committing.</p>
-  <div class="principle-grid rafflee-three">
-    <div class="principle-card"><div class="icon-badge">01</div><h3>Make the prize obvious</h3><p class="app">The prize is the reason to stop scrolling. It gets visual priority and a clear, consistent presentation.</p></div>
-    <div class="principle-card"><div class="icon-badge">02</div><h3>Make entry understandable</h3><p class="app">Price, remaining time, progress and the primary action should be scannable without interpretation.</p></div>
-    <div class="principle-card"><div class="icon-badge">03</div><h3>Earn trust at every step</h3><p class="app">Draw information, competition status and outcome visibility belong in the product experience, not buried at the end.</p></div>
+  <h2>Overview</h2>
+  <p class="lede">Rafflee lets people enter prize draws for cars, watches, holidays, and cash — priced per ticket, with instant wins, subscriptions, and standalone raffles running side by side.</p>
+  <p>As a ground-up build, the project spanned three core flows: player account management, draw creation, and ticket bundling — designed to work across desktop web, mobile web, and native app from day one, while reusing existing backend services wherever possible to move faster.</p>
+</section>
+
+<section class="cs-section wrap">
+  <h2>Designing for trust, not just conversion</h2>
+  <p class="lede">UK prize competitions sit under specific legal requirements — namely, offering a genuinely free, equal-chance way to enter, alongside the paid ticket route. That constraint shaped several core design decisions rather than being an afterthought bolted on later.</p>
+  <ul class="goal-list">
+    <li><strong>Free postal entry</strong> is surfaced directly on every draw, not buried in the terms — visible on the listing, the product page, and the entry flow itself.</li>
+    <li><strong>A tax-free cash alternative</strong> is always shown alongside the prize, so the offer is transparent about real value.</li>
+    <li><strong>A guaranteed giveaway promise</strong> — prizes are always awarded regardless of entry count — is stated upfront as a trust signal, not hidden in a FAQ.</li>
+  </ul>
+  <div class="full-img">
+    <img src="assets/rafflee-pdp.jpg" alt="Rafflee competition detail page showing ticket tiers and free entry link" style="width:100%;">
+  </div>
+  <p style="font-size:0.85rem; color:var(--text-faint); margin-top:-16px;">The product page surfaces free postal entry, ticket tiers, live sold%, and a personal spend limit — all above the fold.</p>
+</section>
+
+<section class="cs-section wrap">
+  <h2>Browsing &amp; entering a draw</h2>
+  <p class="lede">Draws are split into distinct types — Mega competitions, Instant wins, Sit 'n Go, and standalone raffles — so a first-time visitor isn't stuck parsing one undifferentiated list.</p>
+  <div class="img-row">
+    <figure>
+      <img src="assets/rafflee-draws.jpg" alt="Rafflee draws listing page with filters" style="width:100%; height:280px; object-fit:cover; object-position:top;">
+      <figcaption>Filterable draws listing — price, format, and contest type</figcaption>
+    </figure>
+    <figure>
+      <img src="assets/rafflee-mobile-home.jpg" alt="Rafflee mobile homepage" style="width:100%; height:280px; object-fit:cover; object-position:top;">
+      <figcaption>Mobile web mirrors desktop, with standalone raffles surfaced separately</figcaption>
+    </figure>
   </div>
 </section>
 
 <section class="cs-section wrap">
-  <div class="cs-kicker">02 · The experience model</div>
-  <h2>Designing the path from curiosity to entry</h2>
-  <p class="lede">The core journey became a simple loop: discover → evaluate → enter → track → outcome. Every screen has a job in moving the user through that loop.</p>
-  <div class="flow-strip">
-    <div><b>01</b><strong>Discover</strong><span>See a compelling competition</span></div><div class="flow-arrow">→</div>
-    <div><b>02</b><strong>Evaluate</strong><span>Understand prize, price and timing</span></div><div class="flow-arrow">→</div>
-    <div><b>03</b><strong>Enter</strong><span>Choose entries and confirm</span></div><div class="flow-arrow">→</div>
-    <div><b>04</b><strong>Track</strong><span>Know what happens next</span></div>
+  <h2>Rafflee+ subscriptions</h2>
+  <p class="lede">Subscriptions bundle recurring entries across Mega, Instant Win, and Lifestyle competitions into three simple tiers — designed to make the value-per-ticket improvement obvious at a glance rather than something a user has to calculate themselves.</p>
+  <div class="full-img">
+    <img src="assets/rafflee-subscription.jpg" alt="Rafflee+ subscription plans: Lite, Standard, Max" style="width:100%;">
   </div>
+  <ul class="goal-list">
+    <li>Three tiers only — kept deliberately simple rather than offering an overwhelming number of plans.</li>
+    <li>Each tier shows its per-ticket value improvement directly next to the entry count, so the upgrade case makes itself.</li>
+    <li>"Cancel at any time" is stated upfront, next to the pricing — addressing the most common subscription hesitation before it's even asked.</li>
+  </ul>
 </section>
 
 <section class="cs-section wrap">
-  <div class="cs-kicker">03 · Information architecture</div>
-  <h2>Separating browsing from commitment</h2>
-  <p>One of the important structural decisions was to keep discovery lightweight and move detailed information into the competition page. That lets the listing page work like a catalogue while the detail page answers the questions that actually affect entry.</p>
-  <div class="before-after rafflee-ia">
-    <div class="ba-col"><div class="label">Discovery</div><h3>Scan first</h3><p>Prize image · competition title · entry price · time remaining · progress · one clear CTA.</p><div class="impact">Low cognitive load</div></div>
-    <div class="ba-col after"><div class="label">Competition detail</div><h3>Decide with confidence</h3><p>Prize story · rules · draw information · entry options · progress · confirmation and outcome context.</p><div class="impact">More information, only when needed</div></div>
+  <h2>Checkout &amp; the moment after purchase</h2>
+  <p class="lede">Checkout skips a cart entirely — clicking "Enter now" or "Subscribe" goes straight to payment, since almost every purchase here is a single, immediate decision rather than something people compare across multiple items.</p>
+  <div class="img-row">
+    <figure>
+      <img src="assets/rafflee-checkout.jpg" alt="Rafflee payment method selection" style="width:100%; height:300px; object-fit:cover; object-position:top;">
+      <figcaption>Saved cards plus express checkout — no cart step in between</figcaption>
+    </figure>
+    <figure>
+      <img src="assets/rafflee-success.jpg" alt="Rafflee payment success screen with referral CTA" style="width:100%; height:300px; object-fit:cover; object-position:top;">
+      <figcaption>Confirmation doubles as a retention moment — referral credit front and center</figcaption>
+    </figure>
   </div>
+  <div class="full-img" style="margin-top:32px;">
+    <img src="assets/rafflee-mobile-success.jpg" alt="Rafflee mobile payment success screen" style="width:100%; max-height:420px; object-fit:cover; object-position:top;">
+  </div>
+  <p style="font-size:0.85rem; color:var(--text-faint); margin-top:-16px;">Same confirmation pattern carried through to mobile web, with purchased tickets visible immediately.</p>
 </section>
 
 <section class="cs-section wrap">
-  <div class="cs-kicker">04 · The interface</div>
-  <h2>A system that could scale beyond one competition</h2>
-  <p class="lede">Rather than designing a collection of one-off screens, I treated the experience as a reusable system: competition cards, status patterns, entry controls, progress indicators, result states and trust surfaces all share the same visual grammar.</p>
-  <div class="rafflee-ui-grid">
-    <div class="rafflee-phone">
-      <div class="phone-notch"></div><div class="phone-head"><b>Competitions</b><span>⌕</span></div>
-      <div class="phone-feature gradient-a"><small>FEATURED</small><strong>Win your next<br>weekend away</strong><em>£5 entry</em></div>
-      <div class="phone-section"><b>Closing soon</b><span>View all</span></div>
-      <div class="mini-list"><div><i class="mini-pic gradient-b"></i><span><b>Latest tech</b><small>£2 · 4 days left</small></span><strong>→</strong></div><div><i class="mini-pic gradient-c"></i><span><b>City break</b><small>£3 · 7 days left</small></span><strong>→</strong></div></div>
+  <h2>Account &amp; responsible gaming</h2>
+  <p class="lede">A logged-in player's account brings together tickets, prizes, transactions, and settings in one place — with responsible gaming treated as a first-class section, not a link buried in a footer.</p>
+  <div class="full-img">
+    <img src="assets/rafflee-mytickets.jpg" alt="Rafflee my tickets dashboard with account navigation" style="width:100%;">
+  </div>
+  <p style="font-size:0.85rem; color:var(--text-faint); margin-top:-16px;">"Responsible gaming" sits alongside My Tickets and Payment Settings — same visual weight as any other account function.</p>
+</section>
+
+<section class="cs-section wrap">
+  <h2>Key design decisions</h2>
+  <div class="impact-grid">
+    <div class="impact-card">
+      <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m3 6 9 6 9-6"/></svg></div>
+      <h3>Guest-first checkout</h3>
+      <p>No forced sign-up before entering a draw — purchase first, with account creation folded in only where it's actually needed.</p>
     </div>
-    <div class="rafflee-detail-card">
-      <div class="detail-top"><span>LIVE</span><small>18 days remaining</small></div>
-      <div class="detail-prize gradient-c"><b>PRIZE</b></div>
-      <h3>Make the everyday<br>feel like a win.</h3>
-      <p>Everything important is surfaced before the entry action: what you can win, how much it costs, when the competition ends and what happens after you enter.</p>
-      <div class="detail-stat"><span>Entries</span><b>1,284 / 2,500</b></div><div class="detail-progress"><span></span></div>
-      <button class="btn solid">Choose your entries →</button>
+    <div class="impact-card">
+      <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="7" height="7" rx="1.5"/><rect x="14" y="4" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
+      <h3>Distinct draw formats</h3>
+      <p>Mega, Instant Win, Sit 'n Go, and standalone raffles are visually and structurally separated, so the browsing experience doesn't blur into one long list.</p>
+    </div>
+    <div class="impact-card">
+      <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 3 6v6c0 5 4 8.5 9 10 5-1.5 9-5 9-10V6l-9-4Z"/><path d="m9 12 2 2 4-4"/></svg></div>
+      <h3>Trust built into the UI</h3>
+      <p>Free entry, cash alternatives, and the guaranteed giveaway promise are surfaced on the page itself — not left for a terms &amp; conditions link.</p>
+    </div>
+    <div class="impact-card">
+      <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4v6h6"/><path d="M20 20v-6h-6"/><path d="M4.5 15a8 8 0 0 0 14.6 2.3M19.5 9a8 8 0 0 0-14.6-2.3"/></svg></div>
+      <h3>Simple subscription tiers</h3>
+      <p>Three plans only, each with a visible per-ticket value gain — designed to sell itself without needing an explainer.</p>
+    </div>
+    <div class="impact-card">
+      <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.4c.6.5 1 1.3 1 2.1V16h6v-.5c0-.8.4-1.6 1-2.1A6 6 0 0 0 12 3Z"/></svg></div>
+      <h3>Responsible gaming, first-class</h3>
+      <p>Spend limits are visible directly on the product page, and a dedicated Responsible Gaming section sits in the main account navigation.</p>
     </div>
   </div>
 </section>
 
 <section class="cs-section wrap">
-  <div class="cs-kicker">05 · Trust by design</div>
-  <h2>Excitement gets attention. Clarity earns the entry.</h2>
-  <p>Competition products have a natural tension: the experience should feel exciting, but the mechanics cannot feel ambiguous. I designed trust into the hierarchy rather than treating it as a legal afterthought.</p>
-  <div class="impact-grid rafflee-three">
-    <div class="impact-card"><div class="icon-badge">↗</div><h3>Visible status</h3><p>Users can understand whether a competition is live, closing, or complete without hunting for the information.</p></div>
-    <div class="impact-card"><div class="icon-badge">✓</div><h3>Clear commitment</h3><p>The entry step makes the cost and selected quantity explicit before confirmation.</p></div>
-    <div class="impact-card"><div class="icon-badge">◎</div><h3>Outcome continuity</h3><p>The experience doesn't end at payment; tracking and winner/result states complete the product loop.</p></div>
+  <h2>Outcome</h2>
+  <p class="lede">Rafflee shipped as a complete 0-to-1 product in November 2025 — account management, draw creation, ticket bundling, subscriptions, and a full web, mobile web, and app experience, designed and built from an empty canvas.</p>
+  <p>Since launch, the platform has run a continuous stream of live competitions across cars, watches, holidays, and cash prizes, paid out real winners shown transparently on its own winners feed, and built a recurring subscriber base through Rafflee+.</p>
+</section>
+
+<section class="next-project wrap">
+  <span>Next case study</span>
+  <h2>Redesigning the Poker Game Table</h2>
+  <a class="btn solid" href="poker.html">View case study</a>
+</section>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="20" cy="20" r="19" fill="#FFFFFF"/>
+        <circle cx="20" cy="20" r="19" fill="none" stroke="#2E6F40" stroke-width="0.75" opacity="0.25"/>
+        <text x="20" y="26.5" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="14" letter-spacing="-0.5" fill="#2E6F40">AP</text>
+      </svg>
+      <div class="cta">
+        <h2>Let's work together</h2>
+        <a class="btn solid" href="mailto:abhishekpathik@gmail.com">abhishekpathik@gmail.com</a>
+      </div>
+    </div>
+    <div class="meta">© 2026 Abhishek Pathik. Based in India.</div>
   </div>
-</section>
+</footer>
 
-<section class="cs-section wrap">
-  <div class="cs-kicker">06 · What I learned</div>
-  <h2>0→1 design is mostly deciding what not to build</h2>
-  <p class="lede">Rafflee reinforced a lesson I carry into every new product: when there is no legacy to constrain you, the temptation is to design everything. The better approach is to define the smallest coherent system that makes the core promise believable.</p>
-  <p>That meant keeping the primary journey focused, creating reusable patterns early, and letting visual excitement support — rather than compete with — the information users need to make a decision.</p>
-</section>
-
-<section class="next-project wrap"><span>Next project</span><h2>Redesigning the Poker Game Table</h2><a class="btn solid" href="poker.html">Read case study →</a></section>
-
-<footer class="footer"><div class="wrap footer-inner"><div class="footer-brand"><svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="#FFFFFF"/><circle cx="20" cy="20" r="19" fill="none" stroke="#2E6F40" stroke-width="0.75" opacity="0.25"/><text x="20" y="26.5" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="14" letter-spacing="-0.5" fill="#2E6F40">AP</text></svg><div class="cta"><h2>Let's work together</h2><a class="btn solid" href="mailto:abhishekpathik@gmail.com">abhishekpathik@gmail.com</a></div></div><div class="meta">© 2026 Abhishek Pathik. Based in India.</div></div></footer>
-
-<script>
-  const observer = new IntersectionObserver((entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), {threshold:.12});
-  document.querySelectorAll('.cs-section,.next-project').forEach(el => { el.classList.add('reveal'); observer.observe(el); });
-</script>
 </body>
 </html>
