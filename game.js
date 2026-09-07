@@ -159,7 +159,8 @@
       el, inner,
       x: startX,
       y: window.innerHeight + 20,
-      angle: -Math.PI / 2 + (Math.random() - 0.5) * 0.7, // mostly upward, climbing into view
+      targetY: 60 + Math.random() * (window.innerHeight - 120), // spread evenly across full height
+      angle: -Math.PI / 2 + (Math.random() - 0.5) * 0.5, // climb mostly straight up
       speed: 0.4 + Math.random() * 0.5,
       alive: true,
       settled: false,
@@ -232,12 +233,12 @@
     for (const bug of bugs) {
       if (!bug.alive) continue;
 
-      // Once a bug has climbed into the visible area, switch to normal wandering behavior.
-      if (!bug.settled && bug.y < window.innerHeight - 60 - Math.random() * 200) {
+      // Climb straight up toward this bug's assigned resting height, then settle into normal wandering.
+      if (!bug.settled && bug.y <= bug.targetY) {
         bug.settled = true;
         bug.angle = Math.random() * Math.PI * 2;
       }
-      if (Math.random() < 0.02) bug.angle += (Math.random() - 0.5) * 1.0;
+      if (bug.settled && Math.random() < 0.02) bug.angle += (Math.random() - 0.5) * 1.0;
 
       bug.x += Math.cos(bug.angle) * bug.speed;
       bug.y += Math.sin(bug.angle) * bug.speed;
