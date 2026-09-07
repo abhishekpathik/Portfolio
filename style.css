@@ -110,14 +110,18 @@ p { max-width: 62ch; color: var(--text-muted); font-size: 1rem; }
 
 /* Hero */
 .hero {
-  padding-top: 140px;
+  padding-top: 90px;
   padding-bottom: 100px;
-  display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: 60px;
-  align-items: end;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   border-bottom: 1px solid var(--border);
 }
+.hero .photo-wrap { margin-bottom: 36px; }
+.hero .hero-text { max-width: 640px; }
+.hero .bio { margin-left: auto; margin-right: auto; }
+.hero .hero-cta { justify-content: center; }
 .hero h1 span { display: block; }
 .hero .role {
   font-family: var(--font-body);
@@ -129,11 +133,12 @@ p { max-width: 62ch; color: var(--text-muted); font-size: 1rem; }
   letter-spacing: 0.08em;
 }
 .hero .bio { margin-top: 22px; }
-.hero .photo-wrap { position: relative; }
+.hero .photo-wrap { position: relative; width: 220px; margin-left: auto; margin-right: auto; }
 .hero-motif {
   position: absolute;
-  top: -40px;
-  right: -60px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   color: var(--accent);
   opacity: 0.14;
   z-index: 0;
@@ -142,8 +147,9 @@ p { max-width: 62ch; color: var(--text-muted); font-size: 1rem; }
 .hero .photo {
   position: relative;
   z-index: 1;
-  width: 100%;
-  aspect-ratio: 4/5;
+  width: 220px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
   overflow: hidden;
   filter: grayscale(0.15) contrast(1.02);
 }
@@ -497,26 +503,205 @@ html.custom-cursor-active input,
 html.custom-cursor-active textarea {
   cursor: none;
 }
+html.custom-cursor-active .nav,
+html.custom-cursor-active .nav *,
+html.custom-cursor-active .bug-toggle,
+html.custom-cursor-active .bug-toggle * {
+  cursor: auto !important;
+}
 
 .custom-cursor {
   position: fixed;
   top: 0;
   left: 0;
-  width: 30px;
-  height: 30px;
+  width: 42px;
+  height: 42px;
   color: var(--accent);
   pointer-events: none;
   z-index: 9999;
-  transform: translate(-2px, -2px) scale(0);
+  transform: translate(-50%, -50%) scale(0);
   opacity: 0;
   transition: opacity .15s ease, transform .15s cubic-bezier(.22,.68,0,1.01);
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.35));
 }
 .custom-cursor svg { display: block; }
 .custom-cursor.is-visible {
   opacity: 1;
-  transform: translate(-2px, -2px) scale(1);
+  transform: translate(-50%, -50%) scale(1);
 }
 .custom-cursor.is-hovering {
-  transform: translate(-2px, -2px) scale(1.35);
+  color: #D64545;
+  transform: translate(-50%, -50%) scale(1.15);
+}
+.custom-cursor.is-firing {
+  transform: translate(-50%, -50%) scale(0.75);
+}
+
+/* ============================================
+   Crawling bugs easter egg
+   ============================================ */
+.bug {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 20px;
+  margin-left: -15px;
+  margin-top: -10px;
+  z-index: 15;
+  pointer-events: auto;
+  cursor: none;
+}
+.bug-inner {
+  width: 100%;
+  height: 100%;
+  transition: transform .35s cubic-bezier(.22,.68,0,1.01);
+  transform-origin: center;
+}
+.bug-body {
+  width: 100%;
+  height: 100%;
+  animation: bug-bob 0.4s ease-in-out infinite;
+  transform-origin: center;
+}
+.bug-legs {
+  transform-origin: center;
+  animation: bug-legs-swing 0.28s ease-in-out infinite;
+}
+@keyframes bug-bob {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.92); }
+}
+@keyframes bug-legs-swing {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(3deg); }
+}
+.bug.is-dead .bug-inner {
+  transform: rotate(90deg) !important;
+}
+.bug.is-dead .bug-body { animation: none; opacity: 0.55; }
+.bug.is-dead .bug-legs { animation: none; }
+
+.blood-splat {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 46px;
+  height: 46px;
+  margin-left: -23px;
+  margin-top: -23px;
+  z-index: 14;
+  pointer-events: none;
+}
+
+.muzzle-flash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  margin-left: -15px;
+  margin-top: -15px;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  z-index: 9998;
+  pointer-events: none;
+  animation: muzzle-pop .25s ease-out forwards;
+}
+@keyframes muzzle-pop {
+  from { transform: scale(0.4); opacity: 1; }
+  to { transform: scale(1.6); opacity: 0; }
+}
+
+.bugs-cleared-toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent);
+  color: #FFFFFF;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 14px 28px;
+  border-radius: 999px;
+  box-shadow: var(--shadow-hover);
+  z-index: 9997;
+  transition: opacity .6s ease;
+}
+
+/* Bug Hunt toggle switch, top-right corner */
+.bug-toggle {
+  position: fixed;
+  top: 18px;
+  right: 24px;
+  z-index: 9990;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  padding: 8px 14px 8px 16px;
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+  font-family: var(--font-body);
+}
+.bug-toggle-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+}
+.bug-toggle-switch {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  border-radius: 999px;
+  border: none;
+  background: var(--accent);
+  cursor: pointer;
+  padding: 0;
+  transition: background .2s ease;
+  flex-shrink: 0;
+}
+.bug-toggle-switch .knob {
+  position: absolute;
+  top: 2px;
+  left: 20px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  transition: left .2s cubic-bezier(.22,.68,0,1.01);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+}
+.bug-toggle.is-off .bug-toggle-switch { background: #C7C2B4; }
+.bug-toggle.is-off .bug-toggle-switch .knob { left: 2px; }
+.bug-toggle.is-off .bug-toggle-label { opacity: 0.6; }
+
+@media (max-width: 640px) {
+  .bug-toggle { display: none; }
+}
+
+.bug-toggle-hint {
+  position: fixed;
+  top: 78px;
+  right: 70px;
+  z-index: 9985;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  pointer-events: none;
+}
+.bug-toggle-hint span {
+  font-family: 'Caveat', cursive;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #2E6F40;
+  transform: rotate(-2deg);
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .bug-toggle-hint { display: none; }
 }
