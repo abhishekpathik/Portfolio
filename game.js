@@ -6,42 +6,25 @@
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const BUG_COUNT = 12;
-  const HIT_RADIUS = 20;
+  const HIT_RADIUS = 32;
+  const FLEE_RADIUS = 25;
 
   let gameOn = false;
   let bugs = [];
   let killCount = 0;
   let rafId = null;
   let cursor = null;
+  let mouseX = -999;
+  let mouseY = -999;
+  let ammoLeft = 0;
+  let animInterval = null;
+  let idleTimeout = null;
+  let bubbleTimeout = null;
+  const MAX_AMMO = 40;
 
   // ---------- Cute ladybug ----------
-  const bugSvg = `
-    <svg width="28" height="20" viewBox="0 0 28 20" fill="none">
-      <g class="bug-legs">
-        <path d="M9 6 Q3 3 -1 1" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-        <path d="M8 10 Q1 10 -3 10" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-        <path d="M9 14 Q3 17 -1 19" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-        <path d="M19 6 Q25 3 29 1" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-        <path d="M20 10 Q27 10 31 10" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-        <path d="M19 14 Q25 17 29 19" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-      </g>
-      <ellipse cx="14" cy="11" rx="9" ry="7" fill="#E63946"/>
-      <path d="M14 4.5 L14 17.5" stroke="#1B1B1B" stroke-width="1"/>
-      <circle cx="9.5" cy="7.5" r="1.4" fill="#1B1B1B"/>
-      <circle cx="8" cy="12.5" r="1.6" fill="#1B1B1B"/>
-      <circle cx="11" cy="15.5" r="1.2" fill="#1B1B1B"/>
-      <circle cx="18.5" cy="7.5" r="1.4" fill="#1B1B1B"/>
-      <circle cx="20" cy="12.5" r="1.6" fill="#1B1B1B"/>
-      <circle cx="17" cy="15.5" r="1.2" fill="#1B1B1B"/>
-      <ellipse cx="11" cy="9" rx="2.4" ry="1.6" fill="#FFFFFF" opacity="0.35"/>
-      <circle cx="14" cy="4" r="3.4" fill="#1B1B1B"/>
-      <circle cx="12.6" cy="3.2" r="0.85" fill="#FFFFFF"/>
-      <circle cx="12.6" cy="3.2" r="0.4" fill="#1B1B1B"/>
-      <circle cx="15.4" cy="3.2" r="0.85" fill="#FFFFFF"/>
-      <circle cx="15.4" cy="3.2" r="0.4" fill="#1B1B1B"/>
-      <path d="M12 1.5 Q10 -1 8.5 -1.8" stroke="#1B1B1B" stroke-width="0.9" stroke-linecap="round" fill="none"/>
-      <path d="M16 1.5 Q18 -1 19.5 -1.8" stroke="#1B1B1B" stroke-width="0.9" stroke-linecap="round" fill="none"/>
-    </svg>`;
+  const bugSvg = `<img src="assets/ladybug-sprite.png" width="28" height="30" alt="" style="display:block;">`;
+
 
   const bloodSvg = `
     <svg width="46" height="46" viewBox="0 0 46 46" fill="none">
@@ -107,6 +90,8 @@
   let cursorVisible = false;
   function onMouseMove(e) {
     if (!cursor) return;
+    mouseX = e.clientX;
+    mouseY = e.clientY;
     cursor.style.left = e.clientX + 'px';
     cursor.style.top = e.clientY + 'px';
 
@@ -171,12 +156,98 @@
     el.addEventListener('mouseleave', () => { if (cursor) cursor.classList.remove('is-hovering'); });
   }
 
+  function clearAnimTimers() {
+    if (animInterval) { clearInterval(animInterval); animInterval = null; }
+    if (idleTimeout) { clearTimeout(idleTimeout); idleTimeout = null; }
+  }
+
+  function setAvatarExpression(name) {
+    clearAnimTimers();
+    const avatar = document.getElementById('hero-avatar');
+    if (avatar) avatar.src = `assets/avatar-${name}.png`;
+  }
+
+  function showAvatarBubble(text, duration) {
+    const wrap = document.querySelector('.avatar-wrap');
+    if (!wrap) return;
+    let bubble = document.getElementById('avatar-bubble');
+    if (!bubble) {
+      bubble = document.createElement('div');
+      bubble.id = 'avatar-bubble';
+      bubble.className = 'avatar-bubble';
+      wrap.appendChild(bubble);
+    }
+    bubble.textContent = text;
+    // force reflow so re-triggering the animation works even if already visible
+    void bubble.offsetWidth;
+    bubble.classList.add('is-visible');
+    if (bubbleTimeout) clearTimeout(bubbleTimeout);
+    if (duration) {
+      bubbleTimeout = setTimeout(() => bubble.classList.remove('is-visible'), duration);
+    }
+  }
+
+  function hideAvatarBubble() {
+    if (bubbleTimeout) { clearTimeout(bubbleTimeout); bubbleTimeout = null; }
+    const bubble = document.getElementById('avatar-bubble');
+    if (bubble) bubble.classList.remove('is-visible');
+  }
+
+  function playExpressionAnimation(prefix, frameCount, frameDuration, onComplete) {
+    clearAnimTimers();
+    const avatar = document.getElementById('hero-avatar');
+    if (!avatar) { if (onComplete) onComplete(); return; }
+    const durations = Array.isArray(frameDuration)
+      ? frameDuration
+      : new Array(frameCount).fill(frameDuration);
+    let i = 1;
+    avatar.src = `assets/${prefix}-01.png`;
+    function step() {
+      idleTimeout = setTimeout(() => {
+        i++;
+        if (i > frameCount) {
+          if (onComplete) onComplete();
+          return;
+        }
+        avatar.src = `assets/${prefix}-${String(i).padStart(2, '0')}.png`;
+        step();
+      }, durations[i - 1] || 80);
+    }
+    step();
+  }
+
+  // Real per-frame timing extracted from the source animation, for authentic playback.
+  const ANGER_DURATIONS = [380,70,70,70,70,70,70,80,80,80,80,80,80,70,50,50,50,50,50,50,50,50,50,50,40,40,60,60,60,60,60,60,60,60,60,60,220,110,110,110,110,110,110,110,110,420,180,280];
+  const ANGER_FRAME_COUNT = 48;
+
+  // Persistent header animation: a looping "please help me" nudge toward the game,
+  // running whenever nothing more important (a kill, out-of-ammo, victory) is happening.
+  function startIdleAngerLoop() {
+    function cycle() {
+      playExpressionAnimation('anger', ANGER_FRAME_COUNT, ANGER_DURATIONS, () => {
+        showAvatarBubble("I hate bugs on website");
+        idleTimeout = setTimeout(() => {
+          showAvatarBubble("Help me get rid of them");
+          idleTimeout = setTimeout(cycle, 5000);
+        }, 5000);
+      });
+    }
+    cycle();
+  }
+
+  function stopIdleLoop() {
+    clearAnimTimers();
+    hideAvatarBubble();
+  }
+
   function showClearedMessage() {
     const msg = document.createElement('div');
     msg.className = 'bugs-cleared-toast';
     msg.textContent = "🎯 Pest control complete. The tiles are safe again.";
     document.body.appendChild(msg);
     setTimeout(() => { msg.style.opacity = '0'; setTimeout(() => msg.remove(), 600); }, 3500);
+    showAvatarBubble("Mission de-bugged!", 1800);
+    playExpressionAnimation('thumbsup', 8, 200, () => startIdleAngerLoop());
   }
 
   function killBug(bug) {
@@ -196,6 +267,11 @@
     bug.el.classList.add('is-dead');
     if (cursor) cursor.classList.remove('is-hovering');
 
+    if (killCount < BUG_COUNT) {
+      setAvatarExpression('thumbsup');
+      setTimeout(() => startIdleAngerLoop(), 700);
+    }
+
     setTimeout(() => {
       bug.el.remove();
       const idx = bugs.indexOf(bug);
@@ -213,8 +289,30 @@
     setTimeout(() => flash.remove(), 250);
   }
 
+  function updateAmmoLabel() {
+    const label = document.querySelector('.bug-toggle-label');
+    if (!label) return;
+    if (!gameOn) { label.textContent = '🐞 Bug Hunt'; return; }
+    label.textContent = ammoLeft > 0 ? `🐞 Bug Hunt · ${ammoLeft} shots` : '🐞 Out of ammo!';
+  }
+
+  function showOutOfAmmoMessage() {
+    const msg = document.createElement('div');
+    msg.className = 'bugs-cleared-toast';
+    msg.textContent = "🔫 Out of ammo! Toggle off and on to reload.";
+    document.body.appendChild(msg);
+    setTimeout(() => { msg.style.opacity = '0'; setTimeout(() => msg.remove(), 600); }, 3000);
+    showAvatarBubble("This really BUGS me!", 1800);
+    playExpressionAnimation('anger', ANGER_FRAME_COUNT, ANGER_DURATIONS, () => startIdleAngerLoop());
+  }
+
   function onClick(e) {
     if (e.target.closest('a, button, .btn, .work-card, .bug-toggle, .nav')) return;
+    if (ammoLeft <= 0) { showOutOfAmmoMessage(); return; }
+
+    ammoLeft--;
+    updateAmmoLabel();
+
     let hit = false;
     for (const bug of bugs) {
       if (!bug.alive) continue;
@@ -222,7 +320,11 @@
       const dy = e.clientY - bug.y;
       if (Math.sqrt(dx * dx + dy * dy) < HIT_RADIUS) { killBug(bug); hit = true; break; }
     }
-    if (!hit) { playGunshot(); showMuzzleFlash(e.clientX, e.clientY); }
+    if (!hit) {
+      playGunshot();
+      showMuzzleFlash(e.clientX, e.clientY);
+    }
+    if (ammoLeft === 0 && killCount < BUG_COUNT) showOutOfAmmoMessage();
     if (cursor) {
       cursor.classList.add('is-firing');
       setTimeout(() => cursor && cursor.classList.remove('is-firing'), 100);
@@ -230,6 +332,9 @@
   }
 
   function tick() {
+    // The fewer bugs left alive, the faster and more frantic the survivors get.
+    const speedRamp = 1 + (BUG_COUNT - bugs.length) * 0.01;
+
     for (const bug of bugs) {
       if (!bug.alive) continue;
 
@@ -238,10 +343,26 @@
         bug.settled = true;
         bug.angle = Math.random() * Math.PI * 2;
       }
-      if (bug.settled && Math.random() < 0.02) bug.angle += (Math.random() - 0.5) * 1.0;
 
-      bug.x += Math.cos(bug.angle) * bug.speed;
-      bug.y += Math.sin(bug.angle) * bug.speed;
+      let currentSpeed = bug.speed * speedRamp;
+      let fleeing = false;
+
+      if (bug.settled) {
+        const dx = bug.x - mouseX;
+        const dy = bug.y - mouseY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < FLEE_RADIUS) {
+          // Turn to run directly away from the cursor, with a burst of extra speed.
+          bug.angle = Math.atan2(dy, dx);
+          currentSpeed *= 1.05;
+          fleeing = true;
+        } else if (Math.random() < 0.02) {
+          bug.angle += (Math.random() - 0.5) * 1.0;
+        }
+      }
+
+      bug.x += Math.cos(bug.angle) * currentSpeed;
+      bug.y += Math.sin(bug.angle) * currentSpeed;
 
       if (bug.x < 10) { bug.x = 10; bug.angle = Math.PI - bug.angle; }
       if (bug.x > window.innerWidth - 10) { bug.x = window.innerWidth - 10; bug.angle = Math.PI - bug.angle; }
@@ -250,6 +371,7 @@
         if (bug.y > window.innerHeight - 10) { bug.y = window.innerHeight - 10; bug.angle = -bug.angle; }
       }
 
+      bug.el.classList.toggle('is-fleeing', fleeing);
       bug.el.style.transform = `translate(${bug.x}px, ${bug.y}px)`;
       bug.inner.style.transform = `rotate(${(bug.angle * 180) / Math.PI + 90}deg)`;
     }
@@ -261,12 +383,15 @@
     // Wipe any leftover splats from the previous round — fresh start every toggle-on.
     document.querySelectorAll('.blood-splat').forEach((el) => el.remove());
     killCount = 0;
+    ammoLeft = MAX_AMMO;
 
     createCursor();
     const slots = shuffledSlots();
     slots.forEach((x) => spawnBug(x));
     document.addEventListener('click', onClick);
     rafId = requestAnimationFrame(tick);
+    updateAmmoLabel();
+    startIdleAngerLoop();
   }
   function stopGame() {
     destroyCursor();
@@ -275,6 +400,9 @@
     bugs.forEach((b) => b.el.remove());
     bugs = [];
     document.querySelectorAll('.blood-splat').forEach((el) => el.remove());
+    updateAmmoLabel();
+    stopIdleLoop();
+    setAvatarExpression('neutral');
   }
 
   // ---------- Toggle switch (top right) ----------
@@ -298,11 +426,11 @@
     const hint = document.createElement('div');
     hint.className = 'bug-toggle-hint';
     hint.innerHTML = `
-      <svg width="80" height="70" viewBox="0 0 80 70" fill="none">
-        <path d="M6 62 C 22 48, 34 22, 64 8" stroke="#2E6F40" stroke-width="2.2" stroke-linecap="round" fill="none"/>
-        <path d="M64 8 L52 10 M64 8 L60 19" stroke="#2E6F40" stroke-width="2.2" stroke-linecap="round"/>
+      <svg width="56" height="50" viewBox="0 0 56 50" fill="none">
+        <path d="M4 44 C 16 34, 24 16, 46 6" stroke="#8A6A00" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <path d="M46 6 L36 8 M46 6 L43 16" stroke="#8A6A00" stroke-width="2" stroke-linecap="round"/>
       </svg>
-      <span>Switch off the game from here</span>
+      <span>Switch on/off the<br>game from here</span>
     `;
     document.body.appendChild(hint);
   }
