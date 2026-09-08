@@ -17,6 +17,7 @@
   let mouseX = -999;
   let mouseY = -999;
   let ammoLeft = 0;
+  let roundWon = false;
   let animInterval = null;
   let idleTimeout = null;
   let bubbleTimeout = null;
@@ -219,17 +220,29 @@
   // Real per-frame timing extracted from the source animation, for authentic playback.
   const ANGER_DURATIONS = [380,70,70,70,70,70,70,80,80,80,80,80,80,70,50,50,50,50,50,50,50,50,50,50,40,40,60,60,60,60,60,60,60,60,60,60,220,110,110,110,110,110,110,110,110,420,180,280];
   const ANGER_FRAME_COUNT = 48;
+  const THUMBSUP_DURATIONS = [600,110,140,160,70,90,90,420,130,90,500,120,110,400];
+  const THUMBSUP_FRAME_COUNT = 14;
 
   // Persistent header animation: a looping "please help me" nudge toward the game,
   // running whenever nothing more important (a kill, out-of-ammo, victory) is happening.
   function startIdleAngerLoop() {
     function cycle() {
+      showAvatarBubble("I hate bugs on website");
       playExpressionAnimation('anger', ANGER_FRAME_COUNT, ANGER_DURATIONS, () => {
-        showAvatarBubble("I hate bugs on website");
         idleTimeout = setTimeout(() => {
           showAvatarBubble("Help me get rid of them");
           idleTimeout = setTimeout(cycle, 5000);
         }, 5000);
+      });
+    }
+    cycle();
+  }
+
+  function startVictoryLoop() {
+    function cycle() {
+      showAvatarBubble("All bugs squashed — still looking fly!");
+      playExpressionAnimation('thumbsup', THUMBSUP_FRAME_COUNT, THUMBSUP_DURATIONS, () => {
+        idleTimeout = setTimeout(cycle, 3500);
       });
     }
     cycle();
@@ -246,8 +259,8 @@
     msg.textContent = "🎯 Pest control complete. The tiles are safe again.";
     document.body.appendChild(msg);
     setTimeout(() => { msg.style.opacity = '0'; setTimeout(() => msg.remove(), 600); }, 3500);
-    showAvatarBubble("Mission de-bugged!", 1800);
-    playExpressionAnimation('thumbsup', 8, 200, () => startIdleAngerLoop());
+    roundWon = true;
+    startVictoryLoop();
   }
 
   function killBug(bug) {
@@ -266,11 +279,6 @@
 
     bug.el.classList.add('is-dead');
     if (cursor) cursor.classList.remove('is-hovering');
-
-    if (killCount < BUG_COUNT) {
-      setAvatarExpression('thumbsup');
-      setTimeout(() => startIdleAngerLoop(), 700);
-    }
 
     setTimeout(() => {
       bug.el.remove();
@@ -296,18 +304,20 @@
     label.textContent = ammoLeft > 0 ? `🐞 Bug Hunt · ${ammoLeft} shots` : '🐞 Out of ammo!';
   }
 
+  // Out of ammo: just a plain notice. No special animation — the default angry idle
+  // loop keeps running in the background exactly as always. Only a manual toggle
+  // off/on restarts the round with fresh ammo.
   function showOutOfAmmoMessage() {
     const msg = document.createElement('div');
     msg.className = 'bugs-cleared-toast';
     msg.textContent = "🔫 Out of ammo! Toggle off and on to reload.";
     document.body.appendChild(msg);
     setTimeout(() => { msg.style.opacity = '0'; setTimeout(() => msg.remove(), 600); }, 3000);
-    showAvatarBubble("This really BUGS me!", 1800);
-    playExpressionAnimation('anger', ANGER_FRAME_COUNT, ANGER_DURATIONS, () => startIdleAngerLoop());
   }
 
   function onClick(e) {
     if (e.target.closest('a, button, .btn, .work-card, .bug-toggle, .nav')) return;
+    if (roundWon) return;
     if (ammoLeft <= 0) { showOutOfAmmoMessage(); return; }
 
     ammoLeft--;
@@ -384,6 +394,7 @@
     document.querySelectorAll('.blood-splat').forEach((el) => el.remove());
     killCount = 0;
     ammoLeft = MAX_AMMO;
+    roundWon = false;
 
     createCursor();
     const slots = shuffledSlots();
@@ -406,13 +417,26 @@
   }
 
   // ---------- Toggle switch (top right) ----------
-  function buildToggle() {
+  const STORAGE_KEY = 'bugHuntOn';
+  function loadSavedPreference() {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return saved === null ? true : saved === '1'; // default ON for first-ever visit
+    } catch (e) {
+      return true; // localStorage unavailable (privacy mode, etc.) — just default ON
+    }
+  }
+  function savePreference(on) {
+    try { localStorage.setItem(STORAGE_KEY, on ? '1' : '0'); } catch (e) { /* ignore */ }
+  }
+
+  function buildToggle(initialOn) {
     const wrap = document.createElement('div');
-    wrap.className = 'bug-toggle';
+    wrap.className = 'bug-toggle' + (initialOn ? '' : ' is-off');
     wrap.title = 'Warning: contains mildly violent cartoon ladybugs';
     wrap.innerHTML = `
       <span class="bug-toggle-label">🐞 Bug Hunt</span>
-      <button class="bug-toggle-switch" aria-pressed="false"><span class="knob"></span></button>
+      <button class="bug-toggle-switch" aria-pressed="${initialOn}"><span class="knob"></span></button>
     `;
     document.body.appendChild(wrap);
     const btn = wrap.querySelector('.bug-toggle-switch');
@@ -420,6 +444,7 @@
       gameOn = !gameOn;
       btn.setAttribute('aria-pressed', String(gameOn));
       wrap.classList.toggle('is-off', !gameOn);
+      savePreference(gameOn);
       if (gameOn) startGame(); else stopGame();
     });
 
@@ -435,9 +460,13 @@
     document.body.appendChild(hint);
   }
 
-  buildToggle();
-  // Start OFF by default? No — matches the earlier "cursor active as soon as mouse enters" request.
-  gameOn = true;
-  document.querySelector('.bug-toggle-switch').setAttribute('aria-pressed', 'true');
-  startGame();
+  // Respect whatever the user last chose, on any page — instead of always defaulting back to ON.
+  gameOn = loadSavedPreference();
+  buildToggle(gameOn);
+  if (gameOn) {
+    startGame();
+  } else {
+    const avatar = document.getElementById('hero-avatar');
+    if (avatar) avatar.src = 'assets/avatar-neutral.png';
+  }
 })();
