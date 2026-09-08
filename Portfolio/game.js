@@ -416,6 +416,14 @@
     setAvatarExpression('neutral');
   }
 
+  function preloadAllFrames() {
+    const paths = ['avatar-neutral', 'avatar-determined', 'avatar-celebration', 'avatar-facepalm', 'avatar-thumbsup']
+      .map((n) => `assets/${n}.png`);
+    for (let i = 1; i <= ANGER_FRAME_COUNT; i++) paths.push(`assets/anger-${String(i).padStart(2, '0')}.png`);
+    for (let i = 1; i <= THUMBSUP_FRAME_COUNT; i++) paths.push(`assets/thumbsup-${String(i).padStart(2, '0')}.png`);
+    paths.forEach((src) => { const img = new Image(); img.src = src; });
+  }
+
   // ---------- Toggle switch (top right) ----------
   const STORAGE_KEY = 'bugHuntOn';
   function loadSavedPreference() {
@@ -461,6 +469,7 @@
   }
 
   // Respect whatever the user last chose, on any page — instead of always defaulting back to ON.
+  preloadAllFrames();
   gameOn = loadSavedPreference();
   buildToggle(gameOn);
   if (gameOn) {
