@@ -89,6 +89,26 @@
     cursorVisible = false;
   }
   let cursorVisible = false;
+  let lastAimAngle = null;
+  function updateAvatarAim(mx, my) {
+    if (roundWon) return;
+    const wrap = document.querySelector('.avatar-wrap');
+    const avatar = document.getElementById('hero-avatar');
+    if (!wrap || !avatar) return;
+    const rect = wrap.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height * 0.4; // roughly gun height, not full box center
+    const dx = mx - cx;
+    const dy = my - cy;
+    // Convention: 0° = UP, 90° = RIGHT, 180° = DOWN, 270° = LEFT (clockwise from up).
+    let deg = Math.atan2(dx, -dy) * (180 / Math.PI);
+    if (deg < 0) deg += 360;
+    const snapped = (Math.round(deg / 15) % 24) * 15;
+    if (snapped === lastAimAngle) return; // avoid redundant image swaps on tiny mouse jitter
+    lastAimAngle = snapped;
+    avatar.src = `assets/aim-${String(snapped).padStart(3, '0')}.png`;
+  }
+
   function onMouseMove(e) {
     if (!cursor) return;
     mouseX = e.clientX;
@@ -147,7 +167,7 @@
       y: window.innerHeight + 20,
       targetY: 60 + Math.random() * (window.innerHeight - 120), // spread evenly across full height
       angle: -Math.PI / 2 + (Math.random() - 0.5) * 0.5, // climb mostly straight up
-      speed: 0.4 + Math.random() * 0.5,
+      speed: (0.4 + Math.random() * 0.5) * 1.12, // +12% difficulty bump
       alive: true,
       settled: false,
     };
@@ -226,21 +246,29 @@
   // Persistent header animation: a looping "please help me" nudge toward the game,
   // running whenever nothing more important (a kill, out-of-ammo, victory) is happening.
   function startIdleAngerLoop() {
+    clearAnimTimers();
     function cycle() {
       showAvatarBubble("I hate bugs on website");
-      playExpressionAnimation('anger', ANGER_FRAME_COUNT, ANGER_DURATIONS, () => {
-        idleTimeout = setTimeout(() => {
-          showAvatarBubble("Help me get rid of them");
-          idleTimeout = setTimeout(cycle, 5000);
-        }, 5000);
-      });
+      idleTimeout = setTimeout(() => {
+        showAvatarBubble("Help me get rid of them");
+        idleTimeout = setTimeout(cycle, 5000);
+      }, 5000);
     }
     cycle();
   }
 
+  const VICTORY_MESSAGES = [
+    "The UI is finally bug-free!",
+    "Wow, you're really good at this!",
+    "Looks like you hate bugs too.",
+  ];
+  let victoryMsgIndex = 0;
+
   function startVictoryLoop() {
+    clearAnimTimers();
     function cycle() {
-      showAvatarBubble("All bugs squashed — still looking fly!");
+      showAvatarBubble(VICTORY_MESSAGES[victoryMsgIndex % VICTORY_MESSAGES.length]);
+      victoryMsgIndex++;
       playExpressionAnimation('thumbsup', THUMBSUP_FRAME_COUNT, THUMBSUP_DURATIONS, () => {
         idleTimeout = setTimeout(cycle, 3500);
       });
@@ -251,6 +279,24 @@
   function stopIdleLoop() {
     clearAnimTimers();
     hideAvatarBubble();
+  }
+
+  const INTRO_MESSAGES = [
+    "Hi, I'm Abhishek.",
+    "Does your product need some design love?",
+    "I'd love to help you fix that.",
+  ];
+  let introMsgIndex = 0;
+
+  function startIntroLoop() {
+    clearAnimTimers();
+    introMsgIndex = 0;
+    function cycle() {
+      showAvatarBubble(INTRO_MESSAGES[introMsgIndex % INTRO_MESSAGES.length]);
+      introMsgIndex++;
+      idleTimeout = setTimeout(cycle, 3500);
+    }
+    cycle();
   }
 
   function showClearedMessage() {
@@ -268,6 +314,7 @@
     bug.alive = false;
     killCount++;
     playGunshot();
+    updateStatsPanel();
 
     // Splat stays for the rest of this round — a little trail of "achievements".
     const splat = document.createElement('div');
@@ -297,13 +344,6 @@
     setTimeout(() => flash.remove(), 250);
   }
 
-  function updateAmmoLabel() {
-    const label = document.querySelector('.bug-toggle-label');
-    if (!label) return;
-    if (!gameOn) { label.textContent = '🐞 Bug Hunt'; return; }
-    label.textContent = ammoLeft > 0 ? `🐞 Bug Hunt · ${ammoLeft} shots` : '🐞 Out of ammo!';
-  }
-
   // Out of ammo: just a plain notice. No special animation — the default angry idle
   // loop keeps running in the background exactly as always. Only a manual toggle
   // off/on restarts the round with fresh ammo.
@@ -315,13 +355,22 @@
     setTimeout(() => { msg.style.opacity = '0'; setTimeout(() => msg.remove(), 600); }, 3000);
   }
 
+  function triggerAvatarMuzzle() {
+    const muzzle = document.getElementById('avatar-muzzle');
+    if (!muzzle) return;
+    muzzle.classList.remove('is-firing');
+    void muzzle.offsetWidth; // force reflow so rapid clicks can re-trigger
+    muzzle.classList.add('is-firing');
+  }
+
   function onClick(e) {
     if (e.target.closest('a, button, .btn, .work-card, .bug-toggle, .nav')) return;
     if (roundWon) return;
     if (ammoLeft <= 0) { showOutOfAmmoMessage(); return; }
 
     ammoLeft--;
-    updateAmmoLabel();
+    updateStatsPanel();
+    triggerAvatarMuzzle();
 
     let hit = false;
     for (const bug of bugs) {
@@ -342,8 +391,10 @@
   }
 
   function tick() {
+    updateAvatarAim(mouseX, mouseY);
+
     // The fewer bugs left alive, the faster and more frantic the survivors get.
-    const speedRamp = 1 + (BUG_COUNT - bugs.length) * 0.01;
+    const speedRamp = 1 + (BUG_COUNT - bugs.length) * 0.0112; // +12% difficulty bump
 
     for (const bug of bugs) {
       if (!bug.alive) continue;
@@ -395,13 +446,15 @@
     killCount = 0;
     ammoLeft = MAX_AMMO;
     roundWon = false;
+    victoryMsgIndex = 0;
+    lastAimAngle = null;
 
     createCursor();
     const slots = shuffledSlots();
     slots.forEach((x) => spawnBug(x));
     document.addEventListener('click', onClick);
     rafId = requestAnimationFrame(tick);
-    updateAmmoLabel();
+    updateStatsPanel();
     startIdleAngerLoop();
   }
   function stopGame() {
@@ -411,9 +464,19 @@
     bugs.forEach((b) => b.el.remove());
     bugs = [];
     document.querySelectorAll('.blood-splat').forEach((el) => el.remove());
-    updateAmmoLabel();
+    updateStatsPanel();
     stopIdleLoop();
     setAvatarExpression('neutral');
+    startIntroLoop();
+  }
+
+  function preloadAllFrames() {
+    const paths = ['avatar-neutral', 'avatar-determined', 'avatar-celebration', 'avatar-facepalm', 'avatar-thumbsup']
+      .map((n) => `assets/${n}.png`);
+    for (let i = 1; i <= ANGER_FRAME_COUNT; i++) paths.push(`assets/anger-${String(i).padStart(2, '0')}.png`);
+    for (let i = 1; i <= THUMBSUP_FRAME_COUNT; i++) paths.push(`assets/thumbsup-${String(i).padStart(2, '0')}.png`);
+    for (let a = 0; a < 360; a += 15) paths.push(`assets/aim-${String(a).padStart(3, '0')}.png`);
+    paths.forEach((src) => { const img = new Image(); img.src = src; });
   }
 
   // ---------- Toggle switch (top right) ----------
@@ -430,37 +493,60 @@
     try { localStorage.setItem(STORAGE_KEY, on ? '1' : '0'); } catch (e) { /* ignore */ }
   }
 
+  function toggleGame() {
+    gameOn = !gameOn;
+    const wrap = document.getElementById('bug-toggle-panel');
+    const btn = document.querySelector('.bug-toggle-switch');
+    const heroBtn = document.getElementById('hero-game-toggle');
+    if (btn) btn.setAttribute('aria-pressed', String(gameOn));
+    if (wrap) wrap.classList.toggle('is-off', !gameOn);
+    if (heroBtn) heroBtn.textContent = gameOn ? 'Kill the game' : 'Start the game';
+    savePreference(gameOn);
+    if (gameOn) startGame(); else stopGame();
+    updateStatsPanel();
+  }
+
+  function updateStatsPanel() {
+    const stats = document.getElementById('bug-toggle-stats');
+    const bugsEl = document.getElementById('bugs-left-count');
+    const ammoEl = document.getElementById('ammo-left-count');
+    if (!stats) return;
+    if (!gameOn) {
+      stats.style.display = 'none';
+      return;
+    }
+    stats.style.display = '';
+    if (bugsEl) bugsEl.textContent = Math.max(0, BUG_COUNT - killCount);
+    if (ammoEl) ammoEl.textContent = Math.max(0, ammoLeft);
+  }
+
   function buildToggle(initialOn) {
     const wrap = document.createElement('div');
+    wrap.id = 'bug-toggle-panel';
     wrap.className = 'bug-toggle' + (initialOn ? '' : ' is-off');
     wrap.title = 'Warning: contains mildly violent cartoon ladybugs';
     wrap.innerHTML = `
-      <span class="bug-toggle-label">🐞 Bug Hunt</span>
-      <button class="bug-toggle-switch" aria-pressed="${initialOn}"><span class="knob"></span></button>
+      <div class="bug-toggle-header">
+        <span class="bug-toggle-label">🐞 Bug Hunt</span>
+        <button class="bug-toggle-switch" aria-pressed="${initialOn}"><span class="knob"></span></button>
+      </div>
+      <div class="bug-toggle-stats" id="bug-toggle-stats">
+        <div class="bug-toggle-stat"><span>Bugs Left</span><span id="bugs-left-count">${BUG_COUNT}</span></div>
+        <div class="bug-toggle-stat"><span>Ammo Left</span><span id="ammo-left-count">${MAX_AMMO}</span></div>
+      </div>
     `;
     document.body.appendChild(wrap);
-    const btn = wrap.querySelector('.bug-toggle-switch');
-    btn.addEventListener('click', () => {
-      gameOn = !gameOn;
-      btn.setAttribute('aria-pressed', String(gameOn));
-      wrap.classList.toggle('is-off', !gameOn);
-      savePreference(gameOn);
-      if (gameOn) startGame(); else stopGame();
-    });
+    wrap.querySelector('.bug-toggle-switch').addEventListener('click', toggleGame);
 
-    const hint = document.createElement('div');
-    hint.className = 'bug-toggle-hint';
-    hint.innerHTML = `
-      <svg width="56" height="50" viewBox="0 0 56 50" fill="none">
-        <path d="M4 44 C 16 34, 24 16, 46 6" stroke="#8A6A00" stroke-width="2" stroke-linecap="round" fill="none"/>
-        <path d="M46 6 L36 8 M46 6 L43 16" stroke="#8A6A00" stroke-width="2" stroke-linecap="round"/>
-      </svg>
-      <span>Switch on/off the<br>game from here</span>
-    `;
-    document.body.appendChild(hint);
+    const heroBtn = document.getElementById('hero-game-toggle');
+    if (heroBtn) {
+      heroBtn.textContent = initialOn ? 'Kill the game' : 'Start the game';
+      heroBtn.addEventListener('click', toggleGame);
+    }
   }
 
   // Respect whatever the user last chose, on any page — instead of always defaulting back to ON.
+  preloadAllFrames();
   gameOn = loadSavedPreference();
   buildToggle(gameOn);
   if (gameOn) {
@@ -468,5 +554,7 @@
   } else {
     const avatar = document.getElementById('hero-avatar');
     if (avatar) avatar.src = 'assets/avatar-neutral.png';
+    updateStatsPanel();
+    startIntroLoop();
   }
 })();
