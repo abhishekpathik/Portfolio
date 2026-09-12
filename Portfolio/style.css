@@ -143,6 +143,8 @@ p { max-width: 62ch; color: var(--text-muted); font-size: 1rem; }
   object-position: bottom center;
   transform-origin: bottom center;
   animation: avatar-bob 2.6s ease-in-out infinite;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
 }
 @keyframes avatar-bob {
   0%, 100% { transform: translateY(0) rotate(0deg); }
@@ -309,11 +311,11 @@ p { max-width: 62ch; color: var(--text-muted); font-size: 1rem; }
 /* Responsive */
 @media (max-width: 860px) {
   .wrap { padding: 0 24px; }
-  .hero { grid-template-columns: 1fr; padding-top: 100px; padding-bottom: 70px; gap: 36px; }
+  .hero { grid-template-columns: 1fr; padding-top: 190px; padding-bottom: 70px; gap: 36px; }
   .hero .hero-text { text-align: center; max-width: 100%; }
   .hero .hero-cta { justify-content: center; }
   .hero .bio { margin-left: auto; margin-right: auto; }
-  .hero .photo-wrap { width: 180px; height: 225px; margin-left: auto; margin-right: auto; }
+  .hero .photo-wrap { width: 180px; height: 225px; margin-left: auto; margin-right: auto; margin-top: 100px; }
   .work-item, .work-item.reverse { grid-template-columns: 1fr; gap: 24px; padding: 40px 0; }
   .work-item.reverse .thumb { order: 0; }
   .philosophy-grid, .principle-grid, .impact-grid, .before-after, .img-row, .gallery { grid-template-columns: 1fr; }
@@ -322,6 +324,54 @@ p { max-width: 62ch; color: var(--text-muted); font-size: 1rem; }
   .section-head { flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 40px; }
   .cs-meta { gap: 28px; }
   .footer { flex-direction: column; align-items: flex-start; }
+  .footer-inner { padding-top: 90px; padding-bottom: 90px; gap: 32px; }
+
+  /* The game requires a real mouse/cursor — hide controls that would be inert on touch */
+  #hero-game-toggle { display: none; }
+
+  .mobile-nudge {
+    display: block;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 14px;
+    width: 240px;
+    background: #FFF8DC;
+    border: 3px solid #1B1B1B;
+    border-radius: 20px;
+    padding: 12px 16px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.82rem;
+    line-height: 1.35;
+    color: #1B1B1B;
+    text-align: center;
+    box-shadow: 3px 4px 0 rgba(0,0,0,0.15);
+    z-index: 5;
+  }
+  .mobile-nudge::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 9px solid transparent;
+    border-top-color: #1B1B1B;
+  }
+  .mobile-nudge::before {
+    content: "";
+    position: absolute;
+    top: calc(100% - 3px);
+    left: 50%;
+    transform: translateX(-50%);
+    border: 7px solid transparent;
+    border-top-color: #FFF8DC;
+    z-index: 1;
+  }
+}
+@media (min-width: 861px) {
+  .mobile-nudge { display: none; }
 }
 
 @media (max-width: 640px) {
@@ -363,6 +413,7 @@ a:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-
 
 /* Buttons: a slight lift + scale reads as tactile feedback, not just a color change */
 .btn { transition: border-color .25s ease, color .25s ease, transform .2s ease, box-shadow .3s ease; }
+button.btn { background: transparent; font-family: inherit; cursor: pointer; }
 .btn:hover { transform: translateY(-2px); }
 .btn:active { transform: translateY(0) scale(0.98); }
 .btn.solid:hover { box-shadow: 0 8px 24px -8px var(--accent-dim); }
@@ -647,22 +698,26 @@ html.custom-cursor-active .bug-toggle * {
 /* Bug Hunt toggle switch, top-right corner */
 .bug-toggle {
   position: fixed;
-  top: 18px;
+  top: 88px;
   right: 24px;
   z-index: 9990;
-  display: flex;
-  align-items: center;
-  gap: 10px;
   background: #FFFFFF;
   border: 1px solid var(--border);
-  padding: 8px 14px 8px 16px;
-  border-radius: 999px;
+  padding: 14px 18px;
+  border-radius: 18px;
   box-shadow: var(--shadow);
   font-family: var(--font-body);
+  min-width: 200px;
+}
+.bug-toggle-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
 }
 .bug-toggle-label {
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: 0.9rem;
+  font-weight: 700;
   color: var(--text);
   white-space: nowrap;
 }
@@ -693,33 +748,25 @@ html.custom-cursor-active .bug-toggle * {
 .bug-toggle.is-off .bug-toggle-switch .knob { left: 2px; }
 .bug-toggle.is-off .bug-toggle-label { opacity: 0.6; }
 
-@media (max-width: 640px) {
-  .bug-toggle { display: none; }
-}
-
-.bug-toggle-hint {
-  position: fixed;
-  top: 82px;
-  right: 30px;
-  z-index: 9985;
+.bug-toggle-stats {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 0;
-  pointer-events: none;
+  gap: 6px;
 }
-.bug-toggle-hint span {
-  font-family: 'Caveat', cursive;
-  font-weight: 700;
-  font-size: 1.1rem;
-  line-height: 1.15;
-  color: #8A6A00;
-  transform: rotate(-2deg);
-  text-align: right;
-  white-space: nowrap;
+.bug-toggle-stat {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.82rem;
 }
+.bug-toggle-stat span:first-child { color: var(--text-muted); }
+.bug-toggle-stat span:last-child { font-weight: 700; color: var(--text); }
+
 @media (max-width: 640px) {
-  .bug-toggle-hint { display: none; }
+  .bug-toggle { display: none; }
 }
 
 /* Cartoon speech bubble above the avatar for gameplay reactions */
@@ -769,4 +816,32 @@ html.custom-cursor-active .bug-toggle * {
 }
 @media (max-width: 640px) {
   .avatar-bubble { font-size: 0.78rem; padding: 8px 14px; white-space: normal; max-width: 220px; text-align: center; }
+}
+
+
+
+/* Muzzle flash at the avatar's gun position, briefly shown on every shot fired */
+.avatar-muzzle {
+  position: absolute;
+  top: 40%;
+  left: 68%;
+  width: 44px;
+  height: 44px;
+  margin-left: -22px;
+  margin-top: -22px;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.4) rotate(0deg);
+  filter: drop-shadow(0 0 6px rgba(255, 198, 26, 0.8));
+}
+.avatar-muzzle.is-firing {
+  animation: avatar-muzzle-pop 0.12s ease-out;
+}
+@keyframes avatar-muzzle-pop {
+  0% { opacity: 1; transform: scale(0.3) rotate(-8deg); }
+  60% { opacity: 1; transform: scale(1.15) rotate(6deg); }
+  100% { opacity: 0; transform: scale(0.9) rotate(10deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .avatar-muzzle.is-firing { animation: none; opacity: 0; }
 }
