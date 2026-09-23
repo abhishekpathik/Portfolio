@@ -234,8 +234,6 @@
   }
 
   // Real per-frame timing extracted from the source animation, for authentic playback.
-  const ANGER_DURATIONS = [380,70,70,70,70,70,70,80,80,80,80,80,80,70,50,50,50,50,50,50,50,50,50,50,40,40,60,60,60,60,60,60,60,60,60,60,220,110,110,110,110,110,110,110,110,420,180,280];
-  const ANGER_FRAME_COUNT = 48;
   const THUMBSUP_DURATIONS = [600,110,140,160,70,90,90,420,130,90,500,120,110,400];
   const THUMBSUP_FRAME_COUNT = 14;
 
@@ -570,9 +568,7 @@
   }
 
   function preloadAllFrames() {
-    const paths = ['avatar-neutral', 'avatar-determined', 'avatar-celebration', 'avatar-facepalm', 'avatar-thumbsup']
-      .map((n) => `assets/${n}.png`);
-    for (let i = 1; i <= ANGER_FRAME_COUNT; i++) paths.push(`assets/anger-${String(i).padStart(2, '0')}.png`);
+    const paths = ['avatar-neutral', 'avatar-sad'].map((n) => `assets/${n}.png`);
     for (let i = 1; i <= THUMBSUP_FRAME_COUNT; i++) paths.push(`assets/thumbsup-${String(i).padStart(2, '0')}.png`);
     for (let a = 0; a < 360; a += 15) paths.push(`assets/aim-${String(a).padStart(3, '0')}.png`);
     paths.forEach((src) => { const img = new Image(); img.src = src; });
