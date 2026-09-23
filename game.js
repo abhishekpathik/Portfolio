@@ -25,6 +25,8 @@
 
   // ---------- Cute ladybug ----------
   const bugSvg = `<img src="assets/ladybug-sprite.png" width="28" height="30" alt="" style="display:block;">`;
+  let outOfAmmo = false;
+  let bugTauntTimeout = null;
 
 
   const SQUASH_WORDS = ['SQUASH!', 'POP!', 'SPLAT!'];
@@ -85,7 +87,7 @@
   let cursorVisible = false;
   let lastAimAngle = null;
   function updateAvatarAim(mx, my) {
-    if (roundWon) return;
+    if (roundWon || outOfAmmo) return;
     const wrap = document.querySelector('.avatar-wrap');
     const avatar = document.getElementById('hero-avatar');
     if (!wrap || !avatar) return;
@@ -352,15 +354,85 @@
     setTimeout(() => flash.remove(), 250);
   }
 
-  // Out of ammo: just a plain notice. No special animation — the default angry idle
-  // loop keeps running in the background exactly as always. Only a manual toggle
-  // off/on restarts the round with fresh ammo.
-  function showOutOfAmmoMessage() {
-    const msg = document.createElement('div');
-    msg.className = 'bugs-cleared-toast';
-    msg.textContent = "🔫 Out of ammo! Toggle off and on to reload.";
-    document.body.appendChild(msg);
-    setTimeout(() => { msg.style.opacity = '0'; setTimeout(() => msg.remove(), 600); }, 3000);
+  const OUT_OF_AMMO_MESSAGES = [
+    "I thought you got it covered.",
+    "Almost… but not quite.",
+    "I thought we had this.",
+    "Well… that could've gone better.",
+    "Looks like the bugs won this round.",
+    "I had faith in you.",
+    "We're out of ammo.",
+  ];
+  const BUG_TAUNT_MESSAGES = ["hehehe", "catch me!", "nope 👀"];
+
+  function startAmmoOutLoop() {
+    clearAnimTimers();
+    function cycle() {
+      showAvatarBubble(OUT_OF_AMMO_MESSAGES[Math.floor(Math.random() * OUT_OF_AMMO_MESSAGES.length)]);
+      idleTimeout = setTimeout(cycle, 4000);
+    }
+    cycle();
+  }
+
+  function showBugTaunt(bug) {
+    let bubble = bug.el.querySelector('.bug-taunt-bubble');
+    if (!bubble) {
+      bubble = document.createElement('div');
+      bubble.className = 'bug-taunt-bubble';
+      bug.el.appendChild(bubble);
+    }
+    bubble.textContent = BUG_TAUNT_MESSAGES[Math.floor(Math.random() * BUG_TAUNT_MESSAGES.length)];
+    void bubble.offsetWidth;
+    bubble.classList.add('is-visible');
+    setTimeout(() => bubble.classList.remove('is-visible'), 1300);
+  }
+
+  function scheduleBugTaunt() {
+    const delay = 1500 + Math.random() * 1300;
+    bugTauntTimeout = setTimeout(() => {
+      if (!outOfAmmo) return;
+      const alive = bugs.filter((b) => b.alive);
+      if (alive.length) showBugTaunt(alive[Math.floor(Math.random() * alive.length)]);
+      scheduleBugTaunt();
+    }, delay);
+  }
+
+  function enterOutOfAmmoState() {
+    if (outOfAmmo) return;
+    outOfAmmo = true;
+
+    const avatar = document.getElementById('hero-avatar');
+    if (avatar) avatar.src = 'assets/avatar-sad.png';
+    startAmmoOutLoop();
+
+    scheduleBugTaunt();
+
+    const panel = document.getElementById('bug-toggle-panel');
+    if (panel) panel.classList.add('is-ammo-out');
+  }
+
+  function exitOutOfAmmoState(action) {
+    clearAnimTimers();
+    if (bugTauntTimeout) { clearTimeout(bugTauntTimeout); bugTauntTimeout = null; }
+    hideAvatarBubble();
+    outOfAmmo = false;
+
+    bugs.forEach((b) => {
+      const bubble = b.el.querySelector('.bug-taunt-bubble');
+      if (bubble) bubble.remove();
+    });
+
+    const panel = document.getElementById('bug-toggle-panel');
+    if (panel) panel.classList.remove('is-ammo-out');
+
+    if (action === 'restart') {
+      ammoLeft = MAX_AMMO;
+      updateStatsPanel();
+      setAvatarExpression('neutral');
+      startIdleAngerLoop();
+    } else if (action === 'off') {
+      toggleGame();
+    }
   }
 
   function triggerAvatarMuzzle() {
@@ -374,7 +446,7 @@
   function onClick(e) {
     if (e.target.closest('a, button, .btn, .work-card, .bug-toggle, .nav')) return;
     if (roundWon) return;
-    if (ammoLeft <= 0) { showOutOfAmmoMessage(); return; }
+    if (ammoLeft <= 0) return;
 
     ammoLeft--;
     updateStatsPanel();
@@ -391,7 +463,7 @@
       playGunshot();
       showMuzzleFlash(e.clientX, e.clientY);
     }
-    if (ammoLeft === 0 && killCount < BUG_COUNT) showOutOfAmmoMessage();
+    if (ammoLeft === 0 && killCount < BUG_COUNT) enterOutOfAmmoState();
     if (cursor) {
       cursor.classList.add('is-firing');
       setTimeout(() => cursor && cursor.classList.remove('is-firing'), 100);
@@ -474,6 +546,10 @@
     bugs = [];
     document.querySelectorAll('.blood-splat').forEach((el) => el.remove());
     document.querySelectorAll('.squash-burst').forEach((el) => el.remove());
+    if (bugTauntTimeout) { clearTimeout(bugTauntTimeout); bugTauntTimeout = null; }
+    outOfAmmo = false;
+    const panel = document.getElementById('bug-toggle-panel');
+    if (panel) panel.classList.remove('is-ammo-out');
     updateStatsPanel();
     stopIdleLoop();
     setAvatarExpression('neutral');
@@ -543,9 +619,18 @@
       <div class="bug-toggle-stats" id="bug-toggle-stats">
         <span id="bugs-left-count">${BUG_COUNT}</span> bugs &middot; <span id="ammo-left-count">${MAX_AMMO}</span> shots
       </div>
+      <div class="bug-toggle-ammo-out" id="bug-toggle-ammo-out">
+        <span>Out of ammo!</span>
+        <div class="ammo-out-actions">
+          <button class="ammo-restart-btn" id="ammo-restart-btn">🔄 Restart</button>
+          <button class="ammo-off-btn" id="ammo-off-btn">⏻ Off</button>
+        </div>
+      </div>
     `;
     document.body.appendChild(wrap);
     wrap.querySelector('.bug-toggle-switch').addEventListener('click', toggleGame);
+    wrap.querySelector('#ammo-restart-btn').addEventListener('click', () => exitOutOfAmmoState('restart'));
+    wrap.querySelector('#ammo-off-btn').addEventListener('click', () => exitOutOfAmmoState('off'));
 
     const heroBtn = document.getElementById('hero-game-toggle');
     if (heroBtn) {

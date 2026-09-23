@@ -898,3 +898,56 @@ html.custom-cursor-active .bug-toggle * {
 .full-bleed-img img { width: 100%; display: block; max-height: 640px; object-fit: cover; }
 
 .cs-section.tinted { background: var(--surface); padding-top: 64px; padding-bottom: 64px; border-radius: 0; }
+
+/* Out-of-ammo state: toggle panel swaps to Restart/Off, bugs get a taller "cool" sprite */
+.bug-toggle-ammo-out { display: none; }
+.bug-toggle.is-ammo-out .bug-toggle-top,
+.bug-toggle.is-ammo-out .bug-toggle-stats { display: none; }
+.bug-toggle.is-ammo-out .bug-toggle-ammo-out {
+  display: block;
+  text-align: center;
+}
+.bug-toggle-ammo-out span {
+  display: block;
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.ammo-out-actions { display: flex; gap: 8px; }
+.ammo-restart-btn, .ammo-off-btn {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 8px 6px;
+  border-radius: 999px;
+  border: 2px solid #1B1B1B;
+  cursor: pointer;
+  transition: transform .1s ease;
+}
+.ammo-restart-btn { background: var(--accent); color: #1B1B1B; }
+.ammo-off-btn { background: #FFFFFF; color: var(--text); }
+.ammo-restart-btn:active, .ammo-off-btn:active { transform: scale(0.94); }
+
+.bug-taunt-bubble {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  margin-bottom: 6px;
+  background: #FFF8DC;
+  border: 2px solid #1B1B1B;
+  border-radius: 12px;
+  padding: 3px 9px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.7rem;
+  color: #1B1B1B;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease, transform .2s ease;
+  z-index: 30;
+}
+.bug-taunt-bubble.is-visible { opacity: 1; transform: translateX(-50%) translateY(0); }
