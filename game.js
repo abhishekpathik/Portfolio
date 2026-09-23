@@ -27,13 +27,7 @@
   const bugSvg = `<img src="assets/ladybug-sprite.png" width="28" height="30" alt="" style="display:block;">`;
 
 
-  const bloodSvg = `
-    <svg width="46" height="46" viewBox="0 0 46 46" fill="none">
-      <path d="M23 4 C27 10 33 12 36 17 C40 23 37 31 29 34 C22 37 12 35 8 28 C4 21 8 12 15 8 C18 6.2 20.5 5 23 4Z" fill="#A32C21"/>
-      <circle cx="10" cy="30" r="3.5" fill="#A32C21"/>
-      <circle cx="35" cy="10" r="2.5" fill="#A32C21"/>
-      <circle cx="38" cy="24" r="2" fill="#A32C21"/>
-    </svg>`;
+  const SQUASH_WORDS = ['SQUASH!', 'POP!', 'SPLAT!'];
 
   // ---------- Sound ----------
   let audioCtx = null;
@@ -302,9 +296,13 @@
   function showClearedMessage() {
     const msg = document.createElement('div');
     msg.className = 'bugs-cleared-toast';
-    msg.textContent = "🎯 Pest control complete. The tiles are safe again.";
+    msg.innerHTML = `🎯 Portfolio bug-free. Nice work.<br>Now let's tackle some real product problems.<br><a href="#work" class="toast-cta">Explore my work →</a>`;
     document.body.appendChild(msg);
-    setTimeout(() => { msg.style.opacity = '0'; setTimeout(() => msg.remove(), 600); }, 3500);
+    msg.querySelector('.toast-cta').addEventListener('click', () => {
+      msg.style.opacity = '0';
+      setTimeout(() => msg.remove(), 600);
+    });
+    setTimeout(() => { msg.style.opacity = '0'; setTimeout(() => msg.remove(), 600); }, 6000);
     roundWon = true;
     startVictoryLoop();
   }
@@ -316,13 +314,23 @@
     playGunshot();
     updateStatsPanel();
 
-    // Splat stays for the rest of this round — a little trail of "achievements".
+    // Squashed-bug decal stays for the rest of this round — a little trail of "achievements".
     const splat = document.createElement('div');
     splat.className = 'blood-splat';
-    splat.innerHTML = bloodSvg;
+    const rotation = (Math.random() * 30 - 15).toFixed(1);
+    splat.innerHTML = `<img src="assets/bug-squashed.png" alt="" style="transform: rotate(${rotation}deg);">`;
     splat.style.left = bug.x + 'px';
     splat.style.top = bug.y + 'px';
     document.body.appendChild(splat);
+
+    // A quick comic-style burst word, gone within a second — the punchline to the squash.
+    const burst = document.createElement('div');
+    burst.className = 'squash-burst';
+    burst.textContent = SQUASH_WORDS[Math.floor(Math.random() * SQUASH_WORDS.length)];
+    burst.style.left = bug.x + 'px';
+    burst.style.top = bug.y + 'px';
+    document.body.appendChild(burst);
+    setTimeout(() => burst.remove(), 700);
 
     bug.el.classList.add('is-dead');
     if (cursor) cursor.classList.remove('is-hovering');
@@ -443,6 +451,7 @@
   function startGame() {
     // Wipe any leftover splats from the previous round — fresh start every toggle-on.
     document.querySelectorAll('.blood-splat').forEach((el) => el.remove());
+    document.querySelectorAll('.squash-burst').forEach((el) => el.remove());
     killCount = 0;
     ammoLeft = MAX_AMMO;
     roundWon = false;
@@ -464,6 +473,7 @@
     bugs.forEach((b) => b.el.remove());
     bugs = [];
     document.querySelectorAll('.blood-splat').forEach((el) => el.remove());
+    document.querySelectorAll('.squash-burst').forEach((el) => el.remove());
     updateStatsPanel();
     stopIdleLoop();
     setAvatarExpression('neutral');
@@ -498,9 +508,9 @@
     const wrap = document.getElementById('bug-toggle-panel');
     const btn = document.querySelector('.bug-toggle-switch');
     const heroBtn = document.getElementById('hero-game-toggle');
-    if (btn) btn.setAttribute('aria-pressed', String(gameOn));
+    if (btn) { btn.setAttribute('aria-pressed', String(gameOn)); btn.textContent = gameOn ? 'ON' : 'OFF'; }
     if (wrap) wrap.classList.toggle('is-off', !gameOn);
-    if (heroBtn) heroBtn.textContent = gameOn ? 'Kill the game' : 'Start the game';
+    if (heroBtn) heroBtn.textContent = gameOn ? '🐞 Stop hunting' : '🐞 Hunt the bugs';
     savePreference(gameOn);
     if (gameOn) startGame(); else stopGame();
     updateStatsPanel();
@@ -526,13 +536,12 @@
     wrap.className = 'bug-toggle' + (initialOn ? '' : ' is-off');
     wrap.title = 'Warning: contains mildly violent cartoon ladybugs';
     wrap.innerHTML = `
-      <div class="bug-toggle-header">
-        <span class="bug-toggle-label">🐞 Bug Hunt</span>
-        <button class="bug-toggle-switch" aria-pressed="${initialOn}"><span class="knob"></span></button>
+      <div class="bug-toggle-top">
+        <span class="bug-toggle-label">🐞 BUG HUNT</span>
+        <button class="bug-toggle-switch" aria-pressed="${initialOn}">${initialOn ? 'ON' : 'OFF'}</button>
       </div>
       <div class="bug-toggle-stats" id="bug-toggle-stats">
-        <div class="bug-toggle-stat"><span>Bugs Left</span><span id="bugs-left-count">${BUG_COUNT}</span></div>
-        <div class="bug-toggle-stat"><span>Ammo Left</span><span id="ammo-left-count">${MAX_AMMO}</span></div>
+        <span id="bugs-left-count">${BUG_COUNT}</span> bugs &middot; <span id="ammo-left-count">${MAX_AMMO}</span> shots
       </div>
     `;
     document.body.appendChild(wrap);
@@ -540,7 +549,7 @@
 
     const heroBtn = document.getElementById('hero-game-toggle');
     if (heroBtn) {
-      heroBtn.textContent = initialOn ? 'Kill the game' : 'Start the game';
+      heroBtn.textContent = initialOn ? '🐞 Stop hunting' : '🐞 Hunt the bugs';
       heroBtn.addEventListener('click', toggleGame);
     }
   }
