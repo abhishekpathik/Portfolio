@@ -470,7 +470,19 @@
     }
   }
 
-  function tick() {
+  let lastFrameTime = null;
+  function tick(timestamp) {
+    // Scale every frame's movement by actual elapsed time instead of a fixed per-frame
+    // amount, so real-world speed stays the same regardless of the device's frame rate.
+    // dtScale is normalized so that a clean 60fps frame == 1 (keeps existing speed tuning
+    // exactly as-is at 60fps; a slower device just gets a larger dtScale to compensate).
+    let dtScale = 1;
+    if (lastFrameTime !== null) {
+      const dtMs = timestamp - lastFrameTime;
+      dtScale = Math.min(dtMs / (1000 / 60), 3); // clamp so a backgrounded-tab resume can't teleport bugs
+    }
+    lastFrameTime = timestamp;
+
     updateAvatarAim(mouseX, mouseY);
 
     // The fewer bugs left alive, the faster and more frantic the survivors get.
@@ -485,7 +497,7 @@
         bug.angle = Math.random() * Math.PI * 2;
       }
 
-      let currentSpeed = bug.speed * speedRamp;
+      let currentSpeed = bug.speed * speedRamp * dtScale;
       let fleeing = false;
 
       if (bug.settled) {
@@ -497,7 +509,7 @@
           bug.angle = Math.atan2(dy, dx);
           currentSpeed *= 1.05;
           fleeing = true;
-        } else if (Math.random() < 0.02) {
+        } else if (Math.random() < 0.02 * dtScale) {
           bug.angle += (Math.random() - 0.5) * 1.0;
         }
       }
@@ -529,6 +541,7 @@
     roundWon = false;
     victoryMsgIndex = 0;
     lastAimAngle = null;
+    lastFrameTime = null;
 
     createCursor();
     const slots = shuffledSlots();
